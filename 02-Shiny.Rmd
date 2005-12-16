@@ -142,7 +142,16 @@ check_app_image("app2", 300)
 ![A Second Shiny App](assets/images/app2.png)
 
 In this example we've added a few UI elements and you can see how they are
-rendered in the app.
+rendered in the app. The `h1()` and `h3()` functions specify headers, the `em()`
+function italicizes text, and the `code()` function renders the text with a
+monospaced font to make it look like computer code. You can find a listing of
+all of the different UI text tags that are availible by typing `?builder` into
+the R console.
+
+## Inputs and Outputs
+
+
+
 
 If you're like most R users when you first encounter shiny, you're probably
 wondering "What is going on? Why is the syntaxt so strange?"
