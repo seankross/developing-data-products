@@ -1,0 +1,7 @@
+book_filename: "developing-data-products"
+chapter_name: "Chapter "
+repo: https://github.com/seankross/developing-data-products
+output_dir: docs
+rmd_files: ["index.Rmd", "01-R-Markdown.Rmd"]
+clean: [packages.bib, bookdown.bbl]
+new_session: yes
