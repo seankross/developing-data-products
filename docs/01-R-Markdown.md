@@ -113,7 +113,7 @@ You can use the `c()` function to make vectors.
 If you want to insert R code into an R Markdown document you can use the
 following syntax:
 
-    ```{r}`r ''`
+    ```{r}
     # Write some R code here!
     x <- rnorm(10)
     x^2
@@ -147,7 +147,7 @@ below:
     the coin landing heads up or tails up. We can simulate flipping one coin by
     running the `flip_one_coin()` function defined below:
 
-    ```{r}`r ''`
+    ```{r}
     flip_one_coin <- function(){
       sample(c("H", "T"), 1)
     }
@@ -157,7 +157,7 @@ below:
 
     Let's test the simple result of performing one coin flip:
 
-    ```{r}`r ''`
+    ```{r}
     flip_one_coin()
     ```
 
@@ -166,7 +166,7 @@ below:
     Instead of flipping one coin at a time, we can define a function that will flip
     a specified number of coins:
 
-    ```{r}`r ''`
+    ```{r}
     flip_coins <- function(n){
       sample(c("H", "T"), n, replace = TRUE)
     }
@@ -176,7 +176,7 @@ below:
 
     Let's take a look at the results of flipping 100 coins with a bar graph:
 
-    ```{r}`r ''`
+    ```{r}
     barplot(table(flip_coins(100)))
     ```
 

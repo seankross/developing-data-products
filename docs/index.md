@@ -1,0 +1,84 @@
+--- 
+title: "Developing Data Products"
+author: "Brian Caffo and Sean Kross"
+date: "2016-11-10"
+site: bookdown::bookdown_site
+output:
+ bookdown::html_chapters:
+   includes:
+     in_header: style.css
+documentclass: book
+bibliography: [book.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: seankross/developing-data-products
+url: 'https\://github.com/seankross/developing-data-products'
+description: "A companion textbook for the Developing Data Products course."
+---
+
+# Preface {-}
+
+## About this book
+
+This book is written as a companion book to the
+[Developing Data Products](https://www.coursera.org/course/devdataprod)
+Coursera class as part of the 
+[Data Science Specialization](https://www.coursera.org/specialization/jhudatascience/1?utm_medium=courseDescripTop).
+However, if you do not take the class, the book mostly stands on its own. A
+useful component of the book is a series of 
+[YouTube videos](https://www.youtube.com/playlist?list=PLpl-gQkQivXhr9PyOWSA3aOHf4ZNTrs90)
+that comprise theCoursera class.
+
+The book is intended to be a low cost introduction to the important field of
+data products. The intended audience are students who are numerically
+and computationally literate, who would like to put those skills to use in
+Data Science. The book is offered for free as a series of
+markdown documents on github and in more convenient forms (epub, mobi) on
+LeanPub.
+
+This book is licensed under a
+[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/),
+which requires author attribution for derivative works, non-commercial use of
+derivative works and that changes are shared in the same way as the original 
+work.
+
+# Introduction {-}
+
+## What is a data product?
+
+We'll begin this book by defining the topic of this class, data products. A data product is
+the production output of a data analysis. For example, a data analysis might
+build a clever machine learning algorithm. A data product embeds that algorithm
+in a web site so that users can input values and get predictions. Interactive analysis web sites,
+graphics, apps, R packages, presentations and reports are all data products.
+In this book we focus only on a few of these components. Mostly for space reasons,
+but also because our Coursera specialization covers others (like report writing).
+
+Before beginning this book, you should be able to use R.
+This language will serve as the launching point for all of our data products.
+Fortunately, if you don't know R, Roger Peng has a great 
+[Coursera class](https://www.coursera.org/learn/r-programming) and
+[LeanPub book](https://leanpub.com/rprogramming) 
+on the subject; take and read those first. The class runs every month
+and both can be obtained for free.
+
+Why R? Well for starters, it's what I know. But, also it's a very prevalent
+data analysis language. Thus, it's convenient to build the data product in
+the same language as the analysis is done in. In addition, the list of tools
+that one needs to learn beyond R to develop data products is massive
+and include: HTML, Javascript, D3, Python, Amazon Web Services, and so on. In some
+sense, the tools we present are best thought of as prototyping tools
+before building a larger production endeavor.
+However, for many applications, they can stand alone. Shiny, in particular,
+is undergoing rapid adoption, development and growth.
+
+## The goal of this book
+
+This book (and the corresponding class) has one simple goal: get you started
+on making data products by introducing you to some very neat tools in R. We only
+scratch the surface on most of these fantastic platforms, and sadly omit 
+some important ones. It's best to pursue this book with a simple data project
+in mind. So, before begining, think of a data oriented web app that you'd like
+to create. Try using the tools in progress to create simplified 
+versions of your app. Hopefully by the end you'll have a large enough toolkit
+to be able to learn what you need to build your app or product.
