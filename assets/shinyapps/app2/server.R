@@ -1,4 +1,4 @@
-# ---- app1-server ----
+# ---- app2-server ----
 
 library(shiny)
 

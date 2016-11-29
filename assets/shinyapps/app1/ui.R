@@ -1,7 +1,8 @@
 # ---- app1-ui ----
 
 library(shiny)
-shinyUI(fluidPage(
+
+fluidPage(
   titlePanel("Data science FTW!"),
   sidebarLayout(
     sidebarPanel(
@@ -11,4 +12,4 @@ shinyUI(fluidPage(
       h3("Main Panel Text")
     )
   )
-))
+)

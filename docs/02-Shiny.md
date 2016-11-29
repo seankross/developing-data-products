@@ -43,14 +43,15 @@ separate files: `ui.R` which contains all of the user interface elements of the
 app, and `server.R` which contains the logic of the app, including code for
 loading and handling data. You can find the code for each of these files below:
 
-### ui.R
+*ui.R*
 
 
 
 
 ```r
 library(shiny)
-shinyUI(fluidPage(
+
+fluidPage(
   titlePanel("Data science FTW!"),
   sidebarLayout(
     sidebarPanel(
@@ -60,16 +61,17 @@ shinyUI(fluidPage(
       h3("Main Panel Text")
     )
   )
-))
+)
 ```
 
-### server.R
+*server.R*
 
 
 
 
 ```r
 library(shiny)
+
 shinyServer(function(input, output) {
   
 })
@@ -87,6 +89,43 @@ directory containing the `ui.R` and `server.R` files as an argument to
 
 
 ![Your First Shiny App](assets/images/app1.png)
+
+Let's walk through the code in `ui.R`. The `fluidPage()` function specifies a
+type of user interface for Shiny to display. Fluid pages try to intelligently
+rearrange themselves depending on the size of the screen that's displaying the
+app which makes this layout look better on mobile devices. Instead of a 
+`fluidPage()` you could use a `fixedPage()` which will not resize your app. The
+`titlePanel()` function defines a title on the top of the page and the 
+`sidebarLayout()` function defines the layout for everything below the title
+panel. The `sidebarLayout()` splits the page into a sidebar and a main part of
+the page, which are then specified with the `sidebarPanel()` function and the
+`mainPanel()` function respectively. Inside the `sidebarPanel()` and the
+`mainPanel()` I put an `h3()` heading, which just displays some text and is
+the same as specifying an `<h3>` tag in HTML.
+
+The `ui.R` simply defines the layout of the page. If you run the code in `ui.R`
+on it's own you can see that a standard set of HTML tags are returned:
+
+
+```
+<div class="container-fluid">
+  <h2>Data science FTW!</h2>
+  <div class="row">
+    <div class="col-sm-4">
+      <form class="well">
+        <h3>Sidebar Text</h3>
+      </form>
+    </div>
+    <div class="col-sm-8">
+      <h3>Main Panel Text</h3>
+    </div>
+  </div>
+</div>
+```
+
+All Shiny is doing is piecing together some HTML!
+
+
 
 If you're like most R users when you first encounter shiny, you're probably
 wondering "What is going on? Why is the syntaxt so strange?"
