@@ -43,7 +43,7 @@ separate files: `ui.R` which contains all of the user interface elements of the
 app, and `server.R` which contains the logic of the app, including code for
 loading and handling data. You can find the code for each of these files below:
 
-*ui.R*
+**App 1: ui.R**
 
 
 
@@ -64,7 +64,7 @@ fluidPage(
 )
 ```
 
-*server.R*
+**App 1: server.R**
 
 
 
@@ -123,9 +123,57 @@ on it's own you can see that a standard set of HTML tags are returned:
 </div>
 ```
 
-All Shiny is doing is piecing together some HTML!
+All Shiny is doing is piecing together some HTML! 
+
+## More UI Elements
+
+Let's take a look at another simple app with a slighly more complex UI:
+
+**App 2: ui.R**
 
 
+
+
+```r
+library(shiny)
+
+fluidPage(
+  titlePanel("HTML Tags"),
+  sidebarLayout(
+    sidebarPanel(
+      h1("H1 Text"),
+      h3("H3 Text"),
+      em("Emphasized Text")
+    ),
+    mainPanel(
+      h3("Main Panel Text"),
+      code("Some Code!")
+    )
+  )
+)
+```
+
+**App 2: server.R**
+
+
+
+
+```r
+library(shiny)
+
+shinyServer(function(input, output) {
+  
+})
+```
+
+The code above will produce an app like this:
+
+
+
+![A Second Shiny App](assets/images/app2.png)
+
+In this example we've added a few UI elements and you can see how they are
+rendered in the app.
 
 If you're like most R users when you first encounter shiny, you're probably
 wondering "What is going on? Why is the syntaxt so strange?"

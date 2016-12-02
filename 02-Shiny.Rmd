@@ -70,9 +70,20 @@ directory containing the `ui.R` and `server.R` files as an argument to
 `runApp()`. You app should look something like this:
 
 ```{r, echo=FALSE}
-library(webshot)
-appshot(app = "assets/shinyapps/app1/", file = file.path("assets", "images", "app1.png"),
-        vheight = 300)
+check_app_image <- function(app, vheight){
+  app_image <- file.path("assets", "images", paste0(app, ".png"))
+  app_ui <- file.path("assets", "shinyapps", app, "ui.R")
+  app_server <- file.path("assets", "shinyapps", app, "server.R")
+  app_image_is_old <- !file.exists(app_image) || 
+    file.mtime(app_ui) > file.mtime(app_image) ||
+    file.mtime(app_server) > file.mtime(app_image)
+  if(app_image_is_old){
+    webshot::appshot(app = dirname(app_ui), file = app_image, vheight = vheight)
+  }
+  invisible()
+}
+
+check_app_image("app1", 300)
 ```
 
 ![Your First Shiny App](assets/images/app1.png)
@@ -98,8 +109,11 @@ ui <- source("assets/shinyapps/app1/ui.R")
 cat(as.character(ui$value))
 ```
 
-All Shiny is doing is piecing together some HTML! Let's take a look at another
-simple app with a slighly more complex UI:
+All Shiny is doing is piecing together some HTML! 
+
+## More UI Elements
+
+Let's take a look at another simple app with a slighly more complex UI:
 
 **App 2: ui.R**
 
@@ -119,7 +133,16 @@ knitr::read_chunk("assets/shinyapps/app2/server.R")
 ```{r app2-server, eval=FALSE}
 ```
 
+The code above will produce an app like this:
 
+```{r, echo=FALSE}
+check_app_image("app2", 300)
+```
+
+![A Second Shiny App](assets/images/app2.png)
+
+In this example we've added a few UI elements and you can see how they are
+rendered in the app.
 
 If you're like most R users when you first encounter shiny, you're probably
 wondering "What is going on? Why is the syntaxt so strange?"
