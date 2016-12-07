@@ -173,7 +173,62 @@ The code above will produce an app like this:
 ![A Second Shiny App](assets/images/app2.png)
 
 In this example we've added a few UI elements and you can see how they are
-rendered in the app.
+rendered in the app. The `h1()` and `h3()` functions specify headers, the `em()`
+function italicizes text, and the `code()` function renders the text with a
+monospaced font to make it look like computer code. You can find a listing of
+all of the different UI text tags that are availible by typing `?builder` into
+the R console.
+
+## Inputs and Outputs
+
+Now that you know the basics of the Shiny user interface you can start to learn
+how to make your Shiny apps do something useful! The most important feature of
+a web application is that a user can provide input through interacting with your
+app, and then you can show the user outputs that respond to those inputs. Let's
+start with the following simple Shiny app:
+
+**App 3: ui.R**
+
+
+
+
+```r
+library(shiny)
+
+fluidPage(
+  titlePanel("Slider App"),
+  sidebarLayout(
+    sidebarPanel(
+      h1("Move the Slider!"),
+      sliderInput("slider1", "Slide Me!", 0, 100, 0)
+    ),
+    mainPanel(
+      h3("Slider Value:"),
+      textOutput("text")
+    )
+  )
+)
+```
+
+**App 3: server.R**
+
+
+
+
+```r
+library(shiny)
+
+shinyServer(function(input, output) {
+  output$text <- renderText(input$slider1)
+})
+```
+
+The code above will produce an app like this:
+
+
+
+![A Simple Slider](assets/images/app3.png)
+
 
 If you're like most R users when you first encounter shiny, you're probably
 wondering "What is going on? Why is the syntaxt so strange?"

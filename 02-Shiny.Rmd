@@ -150,7 +150,55 @@ the R console.
 
 ## Inputs and Outputs
 
+Now that you know the basics of the Shiny user interface you can start to learn
+how to make your Shiny apps do something useful! The most important feature of
+a web application is that a user can provide input through interacting with your
+app, and then you can show the user outputs that respond to those inputs. Let's
+start with the following simple Shiny app:
 
+**App 3: ui.R**
+
+```{r, cache=FALSE, echo=FALSE}
+knitr::read_chunk("assets/shinyapps/app3/ui.R")
+```
+
+```{r app3-ui, eval=FALSE}
+```
+
+**App 3: server.R**
+
+```{r, cache=FALSE, echo=FALSE}
+knitr::read_chunk("assets/shinyapps/app3/server.R")
+```
+
+```{r app3-server, eval=FALSE}
+```
+
+The code above will produce an app that looks like this:
+
+```{r, echo=FALSE}
+check_app_image("app3", 300)
+```
+
+![A Simple Slider](assets/images/app3.png)
+
+A screenshot of this app doesn't do it justice, make sure you run this app on
+your own computer! You can do this easily by entering the following into your
+R console:
+
+```{r, eval=FALSE}
+shiny::runGitHub("seankross/developing-data-products", subdir = "assets/shinyapps/app3/")
+```
+
+Try sliding the slider back and forth. The number displayed on the page should
+change to reflect the value of the slider. In `ui.R` the only new function is
+`sliderInput()` which defines the slider user interface element on the page.
+This function takes several arguments including a unique identifier for this
+slider (`"slider1"` in this case), text to be displayed above the slider, and
+finally minimum, maximum, and inital values for the slider.
+
+This app is the first one I've showed that has something notable going on in
+`server.R`.
 
 
 If you're like most R users when you first encounter shiny, you're probably
