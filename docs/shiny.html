@@ -199,9 +199,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p><strong>App 1: server.R</strong></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
 
-<span class="kw">shinyServer</span>(function(input, output) {
+function(input, output){
   
-})</code></pre></div>
+}</code></pre></div>
 <p>This app is extremely minimal, it’s just meant to get you familair with the syntax of shiny apps including the nested nature of the user interface elements. Create these two files inside of your new directory, then change your current working directory to that folder using <code>setwd()</code>. After loading shiny with <code>library(shiny)</code> enter <code>runApp()</code> into the R console to start the app. Alternatively you can provide the path to the directory containing the <code>ui.R</code> and <code>server.R</code> files as an argument to <code>runApp()</code>. You app should look something like this:</p>
 <div class="figure">
 <img src="assets/images/app1.png" alt="Your First Shiny App" />
@@ -247,9 +247,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p><strong>App 2: server.R</strong></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
 
-<span class="kw">shinyServer</span>(function(input, output) {
+function(input, output){
   
-})</code></pre></div>
+}</code></pre></div>
 <p>The code above will produce an app like this:</p>
 <div class="figure">
 <img src="assets/images/app2.png" alt="A Second Shiny App" />
@@ -279,18 +279,23 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p><strong>App 3: server.R</strong></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
 
-<span class="kw">shinyServer</span>(function(input, output) {
+function(input, output){
   output$text &lt;-<span class="st"> </span><span class="kw">renderText</span>(input$slider1)
-})</code></pre></div>
-<p>The code above will produce an app like this:</p>
+}</code></pre></div>
+<p>The code above will produce an app that looks like this:</p>
 <div class="figure">
 <img src="assets/images/app3.png" alt="A Simple Slider" />
 <p class="caption">A Simple Slider</p>
 </div>
+<p>A screenshot of this app doesn’t do it justice, make sure you run this app on your own computer! You can do this easily by entering the following into your R console:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">shiny::<span class="kw">runGitHub</span>(<span class="st">&quot;seankross/developing-data-products&quot;</span>, <span class="dt">subdir =</span> <span class="st">&quot;assets/shinyapps/app3/&quot;</span>)</code></pre></div>
+<p>Try sliding the slider back and forth. The number displayed on the page should change to reflect the value of the slider. In <code>ui.R</code> the only new function is <code>sliderInput()</code> which defines the slider user interface element on the page. This function takes several arguments including a unique identifier for this slider (<code>&quot;slider1&quot;</code> in this case), text to be displayed above the slider, and finally minimum, maximum, and inital values for the slider.</p>
+<p>The second new function in the UI is <code>textOutput()</code>. This function renders text that is computed in <code>server.R</code>. The only argument passed to this function is a string with the ID of the text which is specified in <code>server.R</code></p>
+<p>This app is the first one I’ve showed that has something notable going on in <code>server.R</code>. The <code>server.R</code> file must return a function, so for simple apps it’s appropriate to define a anonymous function like we’ve done in this example. This function must have arguments named <code>input</code> and <code>output</code>. You should think of the values of these arguments inside of the server function as a <code>list()</code> which each have named elements that you can query (in the case of <code>input</code>) and assign values to (in the case of <code>output</code>). In this example we’re retrieving the value of the slider from <code>input</code> according to the identifier we assigned to it in <code>ui.R</code> (<code>&quot;slider1&quot;</code>). The expression <code>input$slider1</code> evaluates to the current value of the slider. We then wrap that expression with the <code>renderText()</code> function which renders a value so it can be printed as text in a Shiny app. The rendered value is then stored in the <code>output</code> list in the ``</p>
 <p>If you’re like most R users when you first encounter shiny, you’re probably wondering “What is going on? Why is the syntaxt so strange?” To get used to programming shiny apps, you need to throw away a little of your thinking about R; it’s a different style of programming.</p>
 <p>Let’s parse through what’s going on with our two files to hopefully make things more clear. The <code>ui.R</code> function is controlling the interface. The function <code>shinyUI</code> is alerting R to that. The interior function, <code>fluidPage</code> is telling <code>shinyUI</code> what kind of page to create. In this case, it’s a page that can rearrange itself based on what you include in the UI, and it can rearrange itself so the app is easy to use on mobile screens. You specify all elements of the page using functions. In this case we want a title <code>titlePanel(&quot;Data science FTW!&quot;)</code>. Then we want the <code>sidebarPanel</code> to contain certain elements. So, the <code>sidebarPanel</code> function then takes arguments (again functions) of its elements. The statement <code>h3('Sidebar text')</code> is saying that we want the text <code>Siderbar text</code> in the sidebar (since this function occurs within the function <code>sidebarPanel</code>) and we want it to be at the font size <code>h3</code>. If you know a little html, you’ll recognize <code>h3</code> as the third heading level font size. Similar to the <code>sidebarPanel</code> function, the <code>mainPanel</code> function takes functional arguments for the main panel.</p>
 <p>Probably the most frequent syntaxt error for shiny is not putting commas in the right places of <code>ui.R</code>. Remember, the page elements are input as arguments, so they need commas like all arguments to R functions.arguments</p>
-<p>The <code>server.R</code> file is a little easier. The file <code>shinyServer</code> tells R that it’s dealing with a shiny server. The server function always take an argument of a function with arguments <code>inputs</code> and <code>outputs</code>. In this case, our function doesn’t do anything.</p>
+<p>The <code>server.R</code> file is a little easier. The function <code>shinyServer</code> tells R that it’s dealing with a shiny server. The server function always take an argument of an anonymous function with arguments <code>inputs</code> and <code>outputs</code>. In this case, our function doesn’t do anything.</p>
 </div>
 <div id="style-and-markup" class="section level2">
 <h2><span class="header-section-number">2.5</span> Style and markup</h2>

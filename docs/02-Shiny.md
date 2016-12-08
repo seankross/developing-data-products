@@ -72,9 +72,9 @@ fluidPage(
 ```r
 library(shiny)
 
-shinyServer(function(input, output) {
+function(input, output){
   
-})
+}
 ```
 
 This app is extremely minimal, it's just meant to get you familair with the
@@ -161,9 +161,9 @@ fluidPage(
 ```r
 library(shiny)
 
-shinyServer(function(input, output) {
+function(input, output){
   
-})
+}
 ```
 
 The code above will produce an app like this:
@@ -218,16 +218,50 @@ fluidPage(
 ```r
 library(shiny)
 
-shinyServer(function(input, output) {
+function(input, output){
   output$text <- renderText(input$slider1)
-})
+}
 ```
 
-The code above will produce an app like this:
+The code above will produce an app that looks like this:
 
 
 
 ![A Simple Slider](assets/images/app3.png)
+
+A screenshot of this app doesn't do it justice, make sure you run this app on
+your own computer! You can do this easily by entering the following into your
+R console:
+
+
+```r
+shiny::runGitHub("seankross/developing-data-products", subdir = "assets/shinyapps/app3/")
+```
+
+Try sliding the slider back and forth. The number displayed on the page should
+change to reflect the value of the slider. In `ui.R` the only new function is
+`sliderInput()` which defines the slider user interface element on the page.
+This function takes several arguments including a unique identifier for this
+slider (`"slider1"` in this case), text to be displayed above the slider, and
+finally minimum, maximum, and inital values for the slider. 
+
+The second new function in the UI is `textOutput()`. This function renders text
+that is computed in `server.R`. The only argument passed to this function is a
+string with the ID of the text which is specified in `server.R`
+
+This app is the first one I've showed that has something notable going on in
+`server.R`. The `server.R` file must return a function, so for simple
+apps it's appropriate to define a anonymous function like we've done in this
+example. This function must have arguments named `input` and `output`. You
+should think of the values of these arguments inside of the server function as a
+`list()` which each have named elements that you can query (in the case of `input`)
+and assign values to (in the case of `output`). In this example we're 
+retrieving the value of the slider from `input` according to the identifier we
+assigned to it in `ui.R` (`"slider1"`). The expression `input$slider1` evaluates
+to the current value of the slider. We then wrap that expression with the
+`renderText()` function which renders a value so it can be printed as text in a
+Shiny app. The rendered value is then stored in the `output` list in the ``
+
 
 
 If you're like most R users when you first encounter shiny, you're probably
@@ -256,9 +290,9 @@ Probably the most frequent syntaxt error for shiny is not putting commas
 in the right places of `ui.R`. Remember, the page elements are input as
 arguments, so they need commas like all arguments to R functions.arguments
 
-The `server.R` file is a little easier. The file `shinyServer` tells
+The `server.R` file is a little easier. The function `shinyServer` tells
 R that it's dealing with a shiny server. The server function always
-take an argument of a function with arguments `inputs` and `outputs`.
+take an argument of an anonymous function with arguments `inputs` and `outputs`.
 In this case, our function doesn't do anything.
 
 ## Style and markup 
