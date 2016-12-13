@@ -247,7 +247,8 @@ finally minimum, maximum, and inital values for the slider.
 
 The second new function in the UI is `textOutput()`. This function renders text
 that is computed in `server.R`. The only argument passed to this function is a
-string with the ID of the text which is specified in `server.R`
+string with the ID of the text which is specified in `server.R`. We'll designate
+a simple ID called `"text"` which we'll use later in `server.R`.
 
 This app is the first one I've showed that has something notable going on in
 `server.R`. The `server.R` file must return a function, so for simple
@@ -260,7 +261,428 @@ retrieving the value of the slider from `input` according to the identifier we
 assigned to it in `ui.R` (`"slider1"`). The expression `input$slider1` evaluates
 to the current value of the slider. We then wrap that expression with the
 `renderText()` function which renders a value so it can be printed as text in a
-Shiny app. The rendered value is then stored in the `output` list in the ``
+Shiny app. The rendered value is then stored in the `output` list in the `text`
+element. The app's UI is then able to retrieve this value since we specified the
+`text` ID in `ui.R`, and the value of the slider is thus displayed on the
+screen.
+
+If you understand how the app describe above is working, then you understand
+basic input and output in Shiny! On the server side of a Shiny app, you're often
+writing code that takes inputs from the UI, does some computation, and you must
+render the result of that computation in order to show it to the user. Usually
+you can accomplish this with the `render` family of functions included in Shiny.
+In the next app we'll take a look at showing a plot to the user based on some
+inputs, eventually using the `renderPlot()` function.
+
+**App 4: ui.R**
+
+
+
+
+```r
+library(shiny)
+
+fluidPage(
+  titlePanel("Plot Random Numbers"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      numericInput("num_points", "How Many Random Numbers Should be Plotted?", 
+                   value = 1000, min = 1, max = 1000, step = 1),
+      sliderInput("sliderX", "Pick Minimum and Maximum X Values",
+                  -100, 100, value = c(-50, 50)),
+      sliderInput("sliderY", "Pick Minimum and Maximum Y Values",
+                  -100, 100, value = c(-50, 50)),
+      checkboxInput("show_xlab", "Show/Hide X Axis Label", value = TRUE),
+      checkboxInput("show_ylab", "Show/Hide Y Axis Label", value = TRUE),
+      checkboxInput("show_title", "Show/Hide Title")
+    ),
+    
+    mainPanel(
+      h3("Graph of Random Points"),
+      plotOutput("plot1")
+    )
+  )
+)
+```
+
+**App 4: server.R**
+
+
+
+
+```r
+library(shiny)
+
+function(input, output) {
+  output$plot1 <- renderPlot({
+    set.seed(2016-12-13)
+    
+    dataX <- runif(input$num_points, input$sliderX[1], input$sliderX[2])
+    dataY <- runif(input$num_points, input$sliderY[1], input$sliderY[2])
+    
+    xlab <- ifelse(input$show_xlab, "X Axis", "")
+    ylab <- ifelse(input$show_ylab, "Y Axis", "")
+    main <- ifelse(input$show_title, "Title", "")
+    
+    plot(dataX, dataY, xlab = xlab, ylab = ylab, main = main,
+         xlim = c(-100, 100), ylim = c(-100, 100))
+  })
+}
+```
+
+The code above will produce an app that looks like this:
+
+
+
+![Plot Random Points](assets/images/app4.png)
+
+You can run the app locally with this line of code:
+
+
+```r
+shiny::runGitHub("seankross/developing-data-products", subdir = "assets/shinyapps/app4/")
+```
+
+This app has more code than any of the apps we've built before, but it's just
+an extension of the same ideas we've been talking about. In `ui.R` there are a
+few new functions. The `numericInput()` function allows users to type in a
+number into a text box. You've already seen the `sliderInput()` function, but
+in this case there are two inital values, which allows the user to select a
+range of values on a slider between a minimum and maximum value. Next there's
+the `checkboxInput()` function which creates a checkbox on the page that the
+user can toggle. Finally the `plotOutput()` function displays a plot that is
+rendered in `server.R`.
+
+All of the action in this `server.R` file takes place within an expression
+passed to `renderPlot()` since a plot is the only output of this app. The
+number of random numbers to generate is retrieved from `input$num_points` and
+each slider returns a numeric vector of length two, with the first element as
+the leftmost slider value and the second element as the rightmost slider value.
+The axis title is toggled on and off by `input$show_title` which is `TRUE` if
+the checkbox is checked and `FALSE` otherwise. The same principle applies to the
+axis labels. Finally the plot is constructed with a regular `plot()` function
+using UI inputs as parameters.
+
+## Dynamic UI
+
+You might want to change how the user interface of your Shiny app is displayed
+depending on other UI inputs in your app. This is a common pattern seen in
+online forms, where your choice in an early part of a form narrows the
+potential choices in later parts of the form. Here's a small app that illustrates
+how to dynamically change the UI in Shiny:
+
+**App 5: ui.R**
+
+
+
+
+```r
+library(shiny)
+
+fluidPage(
+  titlePanel("Dynamic UI"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("country", "Which Country do you live in?", 
+                  choices = c("USA", "Canada")),
+      uiOutput("region")
+    ),
+    
+    mainPanel(
+      textOutput("message")
+    )
+  )
+)
+```
+
+**App 5: server.R**
+
+
+
+
+```r
+library(shiny)
+library(minimap)
+
+function(input, output) {
+  output$region <- renderUI({
+    if(input$country == "USA"){
+      selectInput("state", "Which state do you live in?", choices = usa_abb)
+    } else {
+      selectInput("pt", "Which province or territory do you live in?", choices = canada_abb)
+    }
+  })
+  
+  output$message <- renderText({
+    if(input$country == "USA"){
+      paste0("You live in the USA in the state of ", input$state, ".")
+    } else {
+      paste0("You live in Canada in the province or territory of ", input$pt, ".")
+    }
+    
+  })
+}
+```
+
+The code above will produce an app that looks like this:
+
+
+
+![Choose a Region](assets/images/app5.png)
+
+You can run this app locally like so:
+
+
+```r
+shiny::runGitHub("seankross/developing-data-products", subdir = "assets/shinyapps/app5/")
+```
+
+The `ui.R` in this app contains elements we've seen before except for the
+`uiOutput()` function. This function displays UI which is computed inside of
+`server.R`! Inside of `server.R` take a look at the `renderUI()` function, which
+contains code you would normally see inside of `ui.R`. The `if` statement
+determines which `selectInput()` is displayed, either the states of the USA, or
+the provinces and territories of Canada. Dynamic manipulation the UI can be a
+powerful tool for controlling the use and flow of your app.
+
+## Reactivity
+
+**App 6: ui.R**
+
+
+
+
+```r
+library(shiny)
+
+fluidPage(
+  titlePanel("Predict Horsepower from MPG"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput("sliderMPG", "What is the MPG of the car?", 10, 35, value = 20),
+      checkboxInput("showModel1", "Show/Hide Model 1", value = TRUE),
+      checkboxInput("showModel2", "Show/Hide Model 2", value = TRUE)
+    ),
+    
+    mainPanel(
+      plotOutput("plot1"),
+      h3("Predicted Horsepower from Model 1:"),
+      textOutput("pred1"),
+      h3("Predicted Horsepower from Model 2:"),
+      textOutput("pred2")
+    )
+  )
+)
+```
+
+**App 6: server.R**
+
+
+
+
+```r
+library(shiny)
+
+function(input, output) {
+  # Create Spline
+  mtcars$mpgsp <- ifelse(mtcars$mpg - 20 > 0, mtcars$mpg - 20, 0)
+  
+  # Fit Models
+  model1 <- lm(hp ~ mpg, data = mtcars)
+  model2 <- lm(hp ~ mpgsp + mpg, data = mtcars)
+  
+  model1pred <- reactive({
+    mpgInput <- input$sliderMPG
+    predict(model1, newdata = data.frame(mpg = mpgInput))
+  })
+  
+  model2pred <- reactive({
+    mpgInput <- input$sliderMPG
+    predict(model2, newdata = 
+              data.frame(mpg = mpgInput,
+                         mpgsp = ifelse(mpgInput - 20 > 0,
+                                        mpgInput - 20, 0)))
+  })
+  
+  output$plot1 <- renderPlot({
+    mpgInput <- input$sliderMPG
+    
+    plot(mtcars$mpg, mtcars$hp, xlab = "Miles Per Gallon", 
+         ylab = "Horsepower", bty = "n", pch = 16,
+         xlim = c(10, 35), ylim = c(50, 350))
+    if(input$showModel1){
+      abline(model1, col = "red", lwd = 2)
+    }
+    if(input$showModel2){
+      model2lines <- predict(model2, newdata = data.frame(
+        mpg = 10:35, mpgsp = ifelse(10:35 - 20 > 0, 10:35 - 20, 0)
+      ))
+      lines(10:35, model2lines, col = "blue", lwd = 2)
+    }
+    legend(25, 250, c("Model 1 Prediction", "Model 2 Prediction"), pch = 16, 
+           col = c("red", "blue"), bty = "n", cex = 1.2)
+    points(mpgInput, model1pred(), col = "red", pch = 16, cex = 2)
+    points(mpgInput, model2pred(), col = "blue", pch = 16, cex = 2)
+  })
+  
+  output$pred1 <- renderText({
+    model1pred()
+  })
+  
+  output$pred2 <- renderText({
+    model2pred()
+  })
+}
+```
+
+The code above will produce an app that looks like this:
+
+
+
+![Modeling Cars](assets/images/app6.png)
+
+Make sure to runs this app locally:
+
+
+```r
+shiny::runGitHub("seankross/developing-data-products", subdir = "assets/shinyapps/app6/")
+```
+
+**App 7: ui.R**
+
+
+
+
+```r
+library(shiny)
+
+fluidPage(
+  titlePanel("Predict Horsepower from MPG"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput("sliderMPG", "What is the MPG of the car?", 10, 35, value = 20),
+      checkboxInput("showModel1", "Show/Hide Model 1", value = TRUE),
+      checkboxInput("showModel2", "Show/Hide Model 2", value = TRUE),
+      submitButton("Submit")
+    ),
+    
+    mainPanel(
+      plotOutput("plot1"),
+      h3("Predicted Horsepower from Model 1:"),
+      textOutput("pred1"),
+      h3("Predicted Horsepower from Model 2:"),
+      textOutput("pred2")
+    )
+  )
+)
+```
+
+The code above will produce an app that looks like this:
+
+
+
+![Delayed Computation](assets/images/app7.png)
+
+You can run this app locally like so:
+
+
+```r
+shiny::runGitHub("seankross/developing-data-products", subdir = "assets/shinyapps/app7/")
+```
+
+## Interactivity
+
+**App 8: ui.R**
+
+
+
+
+```r
+library(shiny)
+
+fluidPage(
+  titlePanel("Brush Points to Visualize Model"),
+  sidebarLayout(
+    sidebarPanel(
+      h3("Slope"),
+      textOutput("slopeOut"),
+      h3("Intercept"),
+      textOutput("intOut")
+    ),
+    mainPanel(
+      plotOutput("plot1", brush = brushOpts(
+        id = "brush1"
+      ))
+    )
+  )
+)
+```
+
+**App 8: server.R**
+
+
+
+
+```r
+library(shiny)
+
+function(input, output) {
+  model <- reactive({
+    brushed_data <- brushedPoints(trees, input$brush1,
+                                  xvar = "Girth", yvar = "Volume")
+    if(nrow(brushed_data) < 2){
+      return(NULL)
+    }
+    lm(Volume ~ Girth, data = brushed_data)
+  })
+  
+  output$slopeOut <- renderText({
+    if(is.null(model())){
+      "No Model Found"
+    } else {
+      model()[[1]][2]
+    }
+  })
+  
+  output$intOut <- renderText({
+    if(is.null(model())){
+      "No Model Found"
+    } else {
+      model()[[1]][1]
+    }
+  })
+  
+  output$plot1 <- renderPlot({
+    plot(trees$Girth, trees$Volume, xlab = "Girth",
+         ylab = "Volume", main = "Tree Measurements",
+         cex = 1.5, pch = 16, bty = "n")
+    if(!is.null(model())){
+      abline(model(), col = "blue", lwd = 2)
+    }
+  })
+}
+```
+
+The code above will produce an app that looks like this:
+
+
+
+![Brushed Points](assets/images/app8.png)
+
+You can run this app locally like so:
+
+
+```r
+shiny::runGitHub("seankross/developing-data-products", subdir = "assets/shinyapps/app8/")
+```
+
+## Sharing Apps
+
+## Conclusion
 
 
 

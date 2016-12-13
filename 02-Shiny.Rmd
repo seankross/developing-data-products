@@ -199,7 +199,8 @@ finally minimum, maximum, and inital values for the slider.
 
 The second new function in the UI is `textOutput()`. This function renders text
 that is computed in `server.R`. The only argument passed to this function is a
-string with the ID of the text which is specified in `server.R`
+string with the ID of the text which is specified in `server.R`. We'll designate
+a simple ID called `"text"` which we'll use later in `server.R`.
 
 This app is the first one I've showed that has something notable going on in
 `server.R`. The `server.R` file must return a function, so for simple
@@ -212,7 +213,213 @@ retrieving the value of the slider from `input` according to the identifier we
 assigned to it in `ui.R` (`"slider1"`). The expression `input$slider1` evaluates
 to the current value of the slider. We then wrap that expression with the
 `renderText()` function which renders a value so it can be printed as text in a
-Shiny app. The rendered value is then stored in the `output` list in the ``
+Shiny app. The rendered value is then stored in the `output` list in the `text`
+element. The app's UI is then able to retrieve this value since we specified the
+`text` ID in `ui.R`, and the value of the slider is thus displayed on the
+screen.
+
+If you understand how the app describe above is working, then you understand
+basic input and output in Shiny! On the server side of a Shiny app, you're often
+writing code that takes inputs from the UI, does some computation, and you must
+render the result of that computation in order to show it to the user. Usually
+you can accomplish this with the `render` family of functions included in Shiny.
+In the next app we'll take a look at showing a plot to the user based on some
+inputs, eventually using the `renderPlot()` function.
+
+**App 4: ui.R**
+
+```{r, cache=FALSE, echo=FALSE}
+knitr::read_chunk("assets/shinyapps/app4/ui.R")
+```
+
+```{r app4-ui, eval=FALSE}
+```
+
+**App 4: server.R**
+
+```{r, cache=FALSE, echo=FALSE}
+knitr::read_chunk("assets/shinyapps/app4/server.R")
+```
+
+```{r app4-server, eval=FALSE}
+```
+
+The code above will produce an app that looks like this:
+
+```{r, echo=FALSE}
+check_app_image("app4", 300)
+```
+
+![Plot Random Points](assets/images/app4.png)
+
+You can run the app locally with this line of code:
+
+```{r, eval=FALSE}
+shiny::runGitHub("seankross/developing-data-products", subdir = "assets/shinyapps/app4/")
+```
+
+This app has more code than any of the apps we've built before, but it's just
+an extension of the same ideas we've been talking about. In `ui.R` there are a
+few new functions. The `numericInput()` function allows users to type in a
+number into a text box. You've already seen the `sliderInput()` function, but
+in this case there are two inital values, which allows the user to select a
+range of values on a slider between a minimum and maximum value. Next there's
+the `checkboxInput()` function which creates a checkbox on the page that the
+user can toggle. Finally the `plotOutput()` function displays a plot that is
+rendered in `server.R`.
+
+All of the action in this `server.R` file takes place within an expression
+passed to `renderPlot()` since a plot is the only output of this app. The
+number of random numbers to generate is retrieved from `input$num_points` and
+each slider returns a numeric vector of length two, with the first element as
+the leftmost slider value and the second element as the rightmost slider value.
+The axis title is toggled on and off by `input$show_title` which is `TRUE` if
+the checkbox is checked and `FALSE` otherwise. The same principle applies to the
+axis labels. Finally the plot is constructed with a regular `plot()` function
+using UI inputs as parameters.
+
+## Dynamic UI
+
+You might want to change how the user interface of your Shiny app is displayed
+depending on other UI inputs in your app. This is a common pattern seen in
+online forms, where your choice in an early part of a form narrows the
+potential choices in later parts of the form. Here's a small app that illustrates
+how to dynamically change the UI in Shiny:
+
+**App 5: ui.R**
+
+```{r, cache=FALSE, echo=FALSE}
+knitr::read_chunk("assets/shinyapps/app5/ui.R")
+```
+
+```{r app5-ui, eval=FALSE}
+```
+
+**App 5: server.R**
+
+```{r, cache=FALSE, echo=FALSE}
+knitr::read_chunk("assets/shinyapps/app5/server.R")
+```
+
+```{r app5-server, eval=FALSE}
+```
+
+The code above will produce an app that looks like this:
+
+```{r, echo=FALSE}
+check_app_image("app5", 300)
+```
+
+![Choose a Region](assets/images/app5.png)
+
+You can run this app locally like so:
+
+```{r, eval=FALSE}
+shiny::runGitHub("seankross/developing-data-products", subdir = "assets/shinyapps/app5/")
+```
+
+The `ui.R` in this app contains elements we've seen before except for the
+`uiOutput()` function. This function displays UI which is computed inside of
+`server.R`! Inside of `server.R` take a look at the `renderUI()` function, which
+contains code you would normally see inside of `ui.R`. The `if` statement
+determines which `selectInput()` is displayed, either the states of the USA, or
+the provinces and territories of Canada. Dynamic manipulation the UI can be a
+powerful tool for controlling the use and flow of your app.
+
+## Reactivity
+
+**App 6: ui.R**
+
+```{r, cache=FALSE, echo=FALSE}
+knitr::read_chunk("assets/shinyapps/app6/ui.R")
+```
+
+```{r app6-ui, eval=FALSE}
+```
+
+**App 6: server.R**
+
+```{r, cache=FALSE, echo=FALSE}
+knitr::read_chunk("assets/shinyapps/app6/server.R")
+```
+
+```{r app6-server, eval=FALSE}
+```
+
+The code above will produce an app that looks like this:
+
+```{r, echo=FALSE}
+check_app_image("app6", 300)
+```
+
+![Modeling Cars](assets/images/app6.png)
+
+Make sure to runs this app locally:
+
+```{r, eval=FALSE}
+shiny::runGitHub("seankross/developing-data-products", subdir = "assets/shinyapps/app6/")
+```
+
+**App 7: ui.R**
+
+```{r, cache=FALSE, echo=FALSE}
+knitr::read_chunk("assets/shinyapps/app7/ui.R")
+```
+
+```{r app7-ui, eval=FALSE}
+```
+
+The code above will produce an app that looks like this:
+
+```{r, echo=FALSE}
+check_app_image("app7", 300)
+```
+
+![Delayed Computation](assets/images/app7.png)
+
+You can run this app locally like so:
+
+```{r, eval=FALSE}
+shiny::runGitHub("seankross/developing-data-products", subdir = "assets/shinyapps/app7/")
+```
+
+## Interactivity
+
+**App 8: ui.R**
+
+```{r, cache=FALSE, echo=FALSE}
+knitr::read_chunk("assets/shinyapps/app8/ui.R")
+```
+
+```{r app8-ui, eval=FALSE}
+```
+
+**App 8: server.R**
+
+```{r, cache=FALSE, echo=FALSE}
+knitr::read_chunk("assets/shinyapps/app8/server.R")
+```
+
+```{r app8-server, eval=FALSE}
+```
+
+The code above will produce an app that looks like this:
+
+```{r, echo=FALSE}
+check_app_image("app8", 300)
+```
+
+![Brushed Points](assets/images/app8.png)
+
+You can run this app locally like so:
+
+```{r, eval=FALSE}
+shiny::runGitHub("seankross/developing-data-products", subdir = "assets/shinyapps/app8/")
+```
+
+## Sharing Apps
+
+## Conclusion
 
 
 
