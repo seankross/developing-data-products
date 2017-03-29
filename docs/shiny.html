@@ -8,7 +8,7 @@
   <title>Developing Data Products</title>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <meta name="description" content="A companion textbook for the Developing Data Products course.">
-  <meta name="generator" content="bookdown 0.1 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.3 and GitBook 2.6.7">
 
   <meta property="og:title" content="Developing Data Products" />
   <meta property="og:type" content="book" />
@@ -25,13 +25,8 @@
 
 <meta name="author" content="Brian Caffo and Sean Kross">
 
-<meta name="date" content="2016-12-13">
 
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-});
-</script>
+<meta name="date" content="2017-03-28">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -57,23 +52,41 @@ MathJax.Hub.Config({
 
 
 <style type="text/css">
+div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
 table.sourceCode { width: 100%; line-height: 100%; }
 td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
 td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; }
-code > span.dt { color: #902000; }
-code > span.dv { color: #40a070; }
-code > span.bn { color: #40a070; }
-code > span.fl { color: #40a070; }
-code > span.ch { color: #4070a0; }
-code > span.st { color: #4070a0; }
-code > span.co { color: #60a0b0; font-style: italic; }
-code > span.ot { color: #007020; }
-code > span.al { color: #ff0000; font-weight: bold; }
-code > span.fu { color: #06287e; }
-code > span.er { color: #ff0000; font-weight: bold; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -126,7 +139,9 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li class="chapter" data-level="2.16" data-path="shiny.html"><a href="shiny.html#talk-about-shiny-server-later"><i class="fa fa-check"></i><b>2.16</b> talk about shiny server later</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="leaflet.html"><a href="leaflet.html"><i class="fa fa-check"></i><b>3</b> Leaflet</a></li>
-<li class="chapter" data-level="4" data-path="interactive-graphics.html"><a href="interactive-graphics.html"><i class="fa fa-check"></i><b>4</b> Interactive Graphics</a></li>
+<li class="chapter" data-level="4" data-path="interactive-graphics.html"><a href="interactive-graphics.html"><i class="fa fa-check"></i><b>4</b> Interactive Graphics</a><ul>
+<li class="chapter" data-level="4.1" data-path="interactive-graphics.html"><a href="interactive-graphics.html#googlevis"><i class="fa fa-check"></i><b>4.1</b> googleVis</a></li>
+</ul></li>
 <li class="chapter" data-level="5" data-path="packages.html"><a href="packages.html"><i class="fa fa-check"></i><b>5</b> Packages</a></li>
 <li class="chapter" data-level="6" data-path="objects.html"><a href="objects.html"><i class="fa fa-check"></i><b>6</b> Objects</a></li>
 <li class="chapter" data-level="7" data-path="swirl.html"><a href="swirl.html"><i class="fa fa-check"></i><b>7</b> Swirl</a></li>
@@ -163,14 +178,14 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div id="installing-shiny" class="section level2">
 <h2><span class="header-section-number">2.1</span> Installing Shiny</h2>
 <p>First, make sure you have the latest release of R installed. If on Windows, make sure that you have <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a> installed. Then, you can install <code>shiny</code> with</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;shiny&quot;</span>)
-<span class="kw">libray</span>(shiny)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;shiny&quot;</span>)
+<span class="kw">libray</span>(shiny)</code></pre></div>
 </div>
 <div id="your-first-shiny-app" class="section level2">
 <h2><span class="header-section-number">2.2</span> Your First Shiny App</h2>
 <p>Let’s build our first app. Like many projects in this book, we’ll start with a simple example app. First create a new directory where you can store all of the files associated with your app. I like to organize my shiny app into two separate files: <code>ui.R</code> which contains all of the user interface elements of the app, and <code>server.R</code> which contains the logic of the app, including code for loading and handling data. You can find the code for each of these files below:</p>
 <p><strong>App 1: ui.R</strong></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
 
 <span class="kw">fluidPage</span>(
   <span class="kw">titlePanel</span>(<span class="st">&quot;Data science FTW!&quot;</span>),
@@ -182,19 +197,21 @@ code > span.er { color: #ff0000; font-weight: bold; }
       <span class="kw">h3</span>(<span class="st">&quot;Main Panel Text&quot;</span>)
     )
   )
-)</code></pre>
+)</code></pre></div>
 <p><strong>App 1: server.R</strong></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
 
 function(input, output){
   
-}</code></pre>
+}</code></pre></div>
 <p>This app is extremely minimal, it’s just meant to get you familair with the syntax of shiny apps including the nested nature of the user interface elements. Create these two files inside of your new directory, then change your current working directory to that folder using <code>setwd()</code>. After loading shiny with <code>library(shiny)</code> enter <code>runApp()</code> into the R console to start the app. Alternatively you can provide the path to the directory containing the <code>ui.R</code> and <code>server.R</code> files as an argument to <code>runApp()</code>. You app should look something like this:</p>
 <div class="figure">
-<img src="assets/images/app1.png" alt="Your First Shiny App" /><p class="caption">Your First Shiny App</p>
+<img src="assets/images/app1.png" alt="Your First Shiny App" />
+<p class="caption">Your First Shiny App</p>
 </div>
 <p>Let’s walk through the code in <code>ui.R</code>. The <code>fluidPage()</code> function specifies a type of user interface for Shiny to display. Fluid pages try to intelligently rearrange themselves depending on the size of the screen that’s displaying the app which makes this layout look better on mobile devices. Instead of a <code>fluidPage()</code> you could use a <code>fixedPage()</code> which will not resize your app. The <code>titlePanel()</code> function defines a title on the top of the page and the <code>sidebarLayout()</code> function defines the layout for everything below the title panel. The <code>sidebarLayout()</code> splits the page into a sidebar and a main part of the page, which are then specified with the <code>sidebarPanel()</code> function and the <code>mainPanel()</code> function respectively. Inside the <code>sidebarPanel()</code> and the <code>mainPanel()</code> I put an <code>h3()</code> heading, which just displays some text and is the same as specifying an <code>&lt;h3&gt;</code> tag in HTML.</p>
 <p>The <code>ui.R</code> simply defines the layout of the page. If you run the code in <code>ui.R</code> on it’s own you can see that a standard set of HTML tags are returned:</p>
+<pre><code>Warning: package &#39;shiny&#39; was built under R version 3.3.3</code></pre>
 <pre><code>&lt;div class=&quot;container-fluid&quot;&gt;
   &lt;h2&gt;Data science FTW!&lt;/h2&gt;
   &lt;div class=&quot;row&quot;&gt;
@@ -214,7 +231,7 @@ function(input, output){
 <h2><span class="header-section-number">2.3</span> More UI Elements</h2>
 <p>Let’s take a look at another simple app with a slighly more complex UI:</p>
 <p><strong>App 2: ui.R</strong></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
 
 <span class="kw">fluidPage</span>(
   <span class="kw">titlePanel</span>(<span class="st">&quot;HTML Tags&quot;</span>),
@@ -229,16 +246,17 @@ function(input, output){
       <span class="kw">code</span>(<span class="st">&quot;Some Code!&quot;</span>)
     )
   )
-)</code></pre>
+)</code></pre></div>
 <p><strong>App 2: server.R</strong></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
 
 function(input, output){
   
-}</code></pre>
+}</code></pre></div>
 <p>The code above will produce an app like this:</p>
 <div class="figure">
-<img src="assets/images/app2.png" alt="A Second Shiny App" /><p class="caption">A Second Shiny App</p>
+<img src="assets/images/app2.png" alt="A Second Shiny App" />
+<p class="caption">A Second Shiny App</p>
 </div>
 <p>In this example we’ve added a few UI elements and you can see how they are rendered in the app. The <code>h1()</code> and <code>h3()</code> functions specify headers, the <code>em()</code> function italicizes text, and the <code>code()</code> function renders the text with a monospaced font to make it look like computer code. You can find a listing of all of the different UI text tags that are availible by typing <code>?builder</code> into the R console.</p>
 </div>
@@ -246,7 +264,7 @@ function(input, output){
 <h2><span class="header-section-number">2.4</span> Inputs and Outputs</h2>
 <p>Now that you know the basics of the Shiny user interface you can start to learn how to make your Shiny apps do something useful! The most important feature of a web application is that a user can provide input through interacting with your app, and then you can show the user outputs that respond to those inputs. Let’s start with the following simple Shiny app:</p>
 <p><strong>App 3: ui.R</strong></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
 
 <span class="kw">fluidPage</span>(
   <span class="kw">titlePanel</span>(<span class="st">&quot;Slider App&quot;</span>),
@@ -260,25 +278,26 @@ function(input, output){
       <span class="kw">textOutput</span>(<span class="st">&quot;text&quot;</span>)
     )
   )
-)</code></pre>
+)</code></pre></div>
 <p><strong>App 3: server.R</strong></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
 
 function(input, output){
   output$text &lt;-<span class="st"> </span><span class="kw">renderText</span>(input$slider1)
-}</code></pre>
+}</code></pre></div>
 <p>The code above will produce an app that looks like this:</p>
 <div class="figure">
-<img src="assets/images/app3.png" alt="A Simple Slider" /><p class="caption">A Simple Slider</p>
+<img src="assets/images/app3.png" alt="A Simple Slider" />
+<p class="caption">A Simple Slider</p>
 </div>
 <p>A screenshot of this app doesn’t do it justice, make sure you run this app on your own computer! You can do this easily by entering the following into your R console:</p>
-<pre class="sourceCode r"><code class="sourceCode r">shiny::<span class="kw">runGitHub</span>(<span class="st">&quot;seankross/developing-data-products&quot;</span>, <span class="dt">subdir =</span> <span class="st">&quot;assets/shinyapps/app3/&quot;</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">shiny::<span class="kw">runGitHub</span>(<span class="st">&quot;seankross/developing-data-products&quot;</span>, <span class="dt">subdir =</span> <span class="st">&quot;assets/shinyapps/app3/&quot;</span>)</code></pre></div>
 <p>Try sliding the slider back and forth. The number displayed on the page should change to reflect the value of the slider. In <code>ui.R</code> the only new function is <code>sliderInput()</code> which defines the slider user interface element on the page. This function takes several arguments including a unique identifier for this slider (<code>&quot;slider1&quot;</code> in this case), text to be displayed above the slider, and finally minimum, maximum, and inital values for the slider.</p>
 <p>The second new function in the UI is <code>textOutput()</code>. This function renders text that is computed in <code>server.R</code>. The only argument passed to this function is a string with the ID of the text which is specified in <code>server.R</code>. We’ll designate a simple ID called <code>&quot;text&quot;</code> which we’ll use later in <code>server.R</code>.</p>
 <p>This app is the first one I’ve showed that has something notable going on in <code>server.R</code>. The <code>server.R</code> file must return a function, so for simple apps it’s appropriate to define a anonymous function like we’ve done in this example. This function must have arguments named <code>input</code> and <code>output</code>. You should think of the values of these arguments inside of the server function as a <code>list()</code> which each have named elements that you can query (in the case of <code>input</code>) and assign values to (in the case of <code>output</code>). In this example we’re retrieving the value of the slider from <code>input</code> according to the identifier we assigned to it in <code>ui.R</code> (<code>&quot;slider1&quot;</code>). The expression <code>input$slider1</code> evaluates to the current value of the slider. We then wrap that expression with the <code>renderText()</code> function which renders a value so it can be printed as text in a Shiny app. The rendered value is then stored in the <code>output</code> list in the <code>text</code> element. The app’s UI is then able to retrieve this value since we specified the <code>text</code> ID in <code>ui.R</code>, and the value of the slider is thus displayed on the screen.</p>
 <p>If you understand how the app describe above is working, then you understand basic input and output in Shiny! On the server side of a Shiny app, you’re often writing code that takes inputs from the UI, does some computation, and you must render the result of that computation in order to show it to the user. Usually you can accomplish this with the <code>render</code> family of functions included in Shiny. In the next app we’ll take a look at showing a plot to the user based on some inputs, eventually using the <code>renderPlot()</code> function.</p>
 <p><strong>App 4: ui.R</strong></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
 
 <span class="kw">fluidPage</span>(
   <span class="kw">titlePanel</span>(<span class="st">&quot;Plot Random Numbers&quot;</span>),
@@ -301,9 +320,9 @@ function(input, output){
       <span class="kw">plotOutput</span>(<span class="st">&quot;plot1&quot;</span>)
     )
   )
-)</code></pre>
+)</code></pre></div>
 <p><strong>App 4: server.R</strong></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
 
 function(input, output) {
   output$plot1 &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({
@@ -319,13 +338,14 @@ function(input, output) {
     <span class="kw">plot</span>(dataX, dataY, <span class="dt">xlab =</span> xlab, <span class="dt">ylab =</span> ylab, <span class="dt">main =</span> main,
          <span class="dt">xlim =</span> <span class="kw">c</span>(-<span class="dv">100</span>, <span class="dv">100</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(-<span class="dv">100</span>, <span class="dv">100</span>))
   })
-}</code></pre>
+}</code></pre></div>
 <p>The code above will produce an app that looks like this:</p>
 <div class="figure">
-<img src="assets/images/app4.png" alt="Plot Random Points" /><p class="caption">Plot Random Points</p>
+<img src="assets/images/app4.png" alt="Plot Random Points" />
+<p class="caption">Plot Random Points</p>
 </div>
 <p>You can run the app locally with this line of code:</p>
-<pre class="sourceCode r"><code class="sourceCode r">shiny::<span class="kw">runGitHub</span>(<span class="st">&quot;seankross/developing-data-products&quot;</span>, <span class="dt">subdir =</span> <span class="st">&quot;assets/shinyapps/app4/&quot;</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">shiny::<span class="kw">runGitHub</span>(<span class="st">&quot;seankross/developing-data-products&quot;</span>, <span class="dt">subdir =</span> <span class="st">&quot;assets/shinyapps/app4/&quot;</span>)</code></pre></div>
 <p>This app has more code than any of the apps we’ve built before, but it’s just an extension of the same ideas we’ve been talking about. In <code>ui.R</code> there are a few new functions. The <code>numericInput()</code> function allows users to type in a number into a text box. You’ve already seen the <code>sliderInput()</code> function, but in this case there are two inital values, which allows the user to select a range of values on a slider between a minimum and maximum value. Next there’s the <code>checkboxInput()</code> function which creates a checkbox on the page that the user can toggle. Finally the <code>plotOutput()</code> function displays a plot that is rendered in <code>server.R</code>.</p>
 <p>All of the action in this <code>server.R</code> file takes place within an expression passed to <code>renderPlot()</code> since a plot is the only output of this app. The number of random numbers to generate is retrieved from <code>input$num_points</code> and each slider returns a numeric vector of length two, with the first element as the leftmost slider value and the second element as the rightmost slider value. The axis title is toggled on and off by <code>input$show_title</code> which is <code>TRUE</code> if the checkbox is checked and <code>FALSE</code> otherwise. The same principle applies to the axis labels. Finally the plot is constructed with a regular <code>plot()</code> function using UI inputs as parameters.</p>
 </div>
@@ -333,7 +353,7 @@ function(input, output) {
 <h2><span class="header-section-number">2.5</span> Dynamic UI</h2>
 <p>You might want to change how the user interface of your Shiny app is displayed depending on other UI inputs in your app. This is a common pattern seen in online forms, where your choice in an early part of a form narrows the potential choices in later parts of the form. Here’s a small app that illustrates how to dynamically change the UI in Shiny:</p>
 <p><strong>App 5: ui.R</strong></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
 
 <span class="kw">fluidPage</span>(
   <span class="kw">titlePanel</span>(<span class="st">&quot;Dynamic UI&quot;</span>),
@@ -349,9 +369,9 @@ function(input, output) {
       <span class="kw">textOutput</span>(<span class="st">&quot;message&quot;</span>)
     )
   )
-)</code></pre>
+)</code></pre></div>
 <p><strong>App 5: server.R</strong></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
 <span class="kw">library</span>(minimap)
 
 function(input, output) {
@@ -371,19 +391,20 @@ function(input, output) {
     }
     
   })
-}</code></pre>
+}</code></pre></div>
 <p>The code above will produce an app that looks like this:</p>
 <div class="figure">
-<img src="assets/images/app5.png" alt="Choose a Region" /><p class="caption">Choose a Region</p>
+<img src="assets/images/app5.png" alt="Choose a Region" />
+<p class="caption">Choose a Region</p>
 </div>
 <p>You can run this app locally like so:</p>
-<pre class="sourceCode r"><code class="sourceCode r">shiny::<span class="kw">runGitHub</span>(<span class="st">&quot;seankross/developing-data-products&quot;</span>, <span class="dt">subdir =</span> <span class="st">&quot;assets/shinyapps/app5/&quot;</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">shiny::<span class="kw">runGitHub</span>(<span class="st">&quot;seankross/developing-data-products&quot;</span>, <span class="dt">subdir =</span> <span class="st">&quot;assets/shinyapps/app5/&quot;</span>)</code></pre></div>
 <p>The <code>ui.R</code> in this app contains elements we’ve seen before except for the <code>uiOutput()</code> function. This function displays UI which is computed inside of <code>server.R</code>! Inside of <code>server.R</code> take a look at the <code>renderUI()</code> function, which contains code you would normally see inside of <code>ui.R</code>. The <code>if</code> statement determines which <code>selectInput()</code> is displayed, either the states of the USA, or the provinces and territories of Canada. Dynamic manipulation the UI can be a powerful tool for controlling the use and flow of your app.</p>
 </div>
 <div id="reactivity" class="section level2">
 <h2><span class="header-section-number">2.6</span> Reactivity</h2>
 <p><strong>App 6: ui.R</strong></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
 
 <span class="kw">fluidPage</span>(
   <span class="kw">titlePanel</span>(<span class="st">&quot;Predict Horsepower from MPG&quot;</span>),
@@ -403,9 +424,9 @@ function(input, output) {
       <span class="kw">textOutput</span>(<span class="st">&quot;pred2&quot;</span>)
     )
   )
-)</code></pre>
+)</code></pre></div>
 <p><strong>App 6: server.R</strong></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
 
 function(input, output) {
   <span class="co"># Create Spline</span>
@@ -456,15 +477,16 @@ function(input, output) {
   output$pred2 &lt;-<span class="st"> </span><span class="kw">renderText</span>({
     <span class="kw">model2pred</span>()
   })
-}</code></pre>
+}</code></pre></div>
 <p>The code above will produce an app that looks like this:</p>
 <div class="figure">
-<img src="assets/images/app6.png" alt="Modeling Cars" /><p class="caption">Modeling Cars</p>
+<img src="assets/images/app6.png" alt="Modeling Cars" />
+<p class="caption">Modeling Cars</p>
 </div>
 <p>Make sure to runs this app locally:</p>
-<pre class="sourceCode r"><code class="sourceCode r">shiny::<span class="kw">runGitHub</span>(<span class="st">&quot;seankross/developing-data-products&quot;</span>, <span class="dt">subdir =</span> <span class="st">&quot;assets/shinyapps/app6/&quot;</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">shiny::<span class="kw">runGitHub</span>(<span class="st">&quot;seankross/developing-data-products&quot;</span>, <span class="dt">subdir =</span> <span class="st">&quot;assets/shinyapps/app6/&quot;</span>)</code></pre></div>
 <p><strong>App 7: ui.R</strong></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
 
 <span class="kw">fluidPage</span>(
   <span class="kw">titlePanel</span>(<span class="st">&quot;Predict Horsepower from MPG&quot;</span>),
@@ -485,18 +507,19 @@ function(input, output) {
       <span class="kw">textOutput</span>(<span class="st">&quot;pred2&quot;</span>)
     )
   )
-)</code></pre>
+)</code></pre></div>
 <p>The code above will produce an app that looks like this:</p>
 <div class="figure">
-<img src="assets/images/app7.png" alt="Delayed Computation" /><p class="caption">Delayed Computation</p>
+<img src="assets/images/app7.png" alt="Delayed Computation" />
+<p class="caption">Delayed Computation</p>
 </div>
 <p>You can run this app locally like so:</p>
-<pre class="sourceCode r"><code class="sourceCode r">shiny::<span class="kw">runGitHub</span>(<span class="st">&quot;seankross/developing-data-products&quot;</span>, <span class="dt">subdir =</span> <span class="st">&quot;assets/shinyapps/app7/&quot;</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">shiny::<span class="kw">runGitHub</span>(<span class="st">&quot;seankross/developing-data-products&quot;</span>, <span class="dt">subdir =</span> <span class="st">&quot;assets/shinyapps/app7/&quot;</span>)</code></pre></div>
 </div>
 <div id="interactivity" class="section level2">
 <h2><span class="header-section-number">2.7</span> Interactivity</h2>
 <p><strong>App 8: ui.R</strong></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
 
 <span class="kw">fluidPage</span>(
   <span class="kw">titlePanel</span>(<span class="st">&quot;Brush Points to Visualize Model&quot;</span>),
@@ -513,9 +536,9 @@ function(input, output) {
       ))
     )
   )
-)</code></pre>
+)</code></pre></div>
 <p><strong>App 8: server.R</strong></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
 
 function(input, output) {
   model &lt;-<span class="st"> </span><span class="kw">reactive</span>({
@@ -551,13 +574,14 @@ function(input, output) {
       <span class="kw">abline</span>(<span class="kw">model</span>(), <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)
     }
   })
-}</code></pre>
+}</code></pre></div>
 <p>The code above will produce an app that looks like this:</p>
 <div class="figure">
-<img src="assets/images/app8.png" alt="Brushed Points" /><p class="caption">Brushed Points</p>
+<img src="assets/images/app8.png" alt="Brushed Points" />
+<p class="caption">Brushed Points</p>
 </div>
 <p>You can run this app locally like so:</p>
-<pre class="sourceCode r"><code class="sourceCode r">shiny::<span class="kw">runGitHub</span>(<span class="st">&quot;seankross/developing-data-products&quot;</span>, <span class="dt">subdir =</span> <span class="st">&quot;assets/shinyapps/app8/&quot;</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">shiny::<span class="kw">runGitHub</span>(<span class="st">&quot;seankross/developing-data-products&quot;</span>, <span class="dt">subdir =</span> <span class="st">&quot;assets/shinyapps/app8/&quot;</span>)</code></pre></div>
 </div>
 <div id="sharing-apps" class="section level2">
 <h2><span class="header-section-number">2.8</span> Sharing Apps</h2>
@@ -576,13 +600,15 @@ function(input, output) {
 <p>), mainPanel( h3(‘Main Panel text’), code(‘some code’), p(‘some ordinary text’) ) )) <sub>~</sub></p>
 <p>This produces the output:</p>
 <div class="figure">
-<img src="images/markup.png" alt="Markup from shiny." /><p class="caption">Markup from shiny.</p>
+<img src="images/markup.png" alt="Markup from shiny." />
+<p class="caption">Markup from shiny.</p>
 </div>
 </div>
 <div id="different-input-types" class="section level2">
 <h2><span class="header-section-number">2.11</span> Different input types</h2>
 <p>Shiny allows for many different input types. In the following example, we change <code>ui.R</code> to allow for a few different input types. After you get the hang of these, any new ones will be easy. We leave <code>server.R</code> as is, so our inputs don’t do anything. See below the numeric input, checkbox, and date input.</p>
-<p>{lang=r,line-numbers=off} <sub>~</sub> shinyUI(pageWithSidebar( headerPanel(“Illustrating inputs”), sidebarPanel( numericInput(‘id1’, ‘Numeric input, labeled id1’, 0, min = 0, max = 10, step = 1), checkboxGroupInput(“id2”, “Checkbox”, c(“Value 1” = “1”, “Value 2” = “2”, “Value 3” = “3”)), dateInput(“date”, “Date:”)<br /> ), mainPanel(</p>
+<p>{lang=r,line-numbers=off} <sub>~</sub> shinyUI(pageWithSidebar( headerPanel(“Illustrating inputs”), sidebarPanel( numericInput(‘id1’, ‘Numeric input, labeled id1’, 0, min = 0, max = 10, step = 1), checkboxGroupInput(“id2”, “Checkbox”, c(“Value 1” = “1”, “Value 2” = “2”, “Value 3” = “3”)), dateInput(“date”, “Date:”)<br />
+), mainPanel(</p>
 <p>) )) <sub>~</sub></p>
 <p>Run this to see the inputs. They’re also shown in the next image a few paragraphs below.</p>
 <p>Refer to <a href="http://shiny.rstudio.com/tutorial/lesson3/">this lesson</a> on the shiny tutorial site for a complete list of inputs available. Once you get the hang of one or two of them, then the remainder will be easy. So, do the above example first and then move on to trying some of the others.</p>
@@ -591,15 +617,16 @@ function(input, output) {
 <div id="making-your-site-interactive" class="section level2">
 <h2><span class="header-section-number">2.12</span> Making your site interactive</h2>
 <p>Now that we have a bit of a handle on creating a shiny user interface, let’s make <code>server.R</code> reactive to the inputs from <code>ui.R</code>. First, let’s adapt our previous simple <code>ui.R</code> file to illustrate. Take the last example, where we collected a numeric input, checkbox and a date, and replace the <code>mainPanel</code> function with below.</p>
-<p>{lang=r,line-numbers=off} <sub>~</sub> mainPanel( h3(‘Illustrating outputs’), h4(‘You entered’), verbatimTextOutput(“oid1”), h4(‘You entered’), verbatimTextOutput(“oid2”), h4(‘You entered’), verbatimTextOutput(“odate”) ) <sub>~</sub></p>
+<p>{lang=r,line-numbers=off} <sub><sub><sub> mainPanel( h3(‘Illustrating outputs’), h4(‘You entered’), verbatimTextOutput(“oid1”), h4(‘You entered’), verbatimTextOutput(“oid2”), h4(‘You entered’), verbatimTextOutput(“odate”) ) </sub></sub></sub></p>
 <p>Our goal is to have our sidebarPanel collect the inputs and our main panel display them. The variables <code>oid1</code>, <code>oid2</code> and <code>odate</code> are all outcome variables that we define in our <code>server.R</code> function. Here it is:</p>
-<p>{lang=r,line-numbers=off} <sub>~</sub> shinyServer( function(input, output) { output<span class="math">\(oid1 = renderPrint({input\)</span>id1}) output<span class="math">\(oid2 = renderPrint({input\)</span>id2}) output<span class="math">\(odate = renderPrint({input\)</span>date}) } ) <sub>~</sub></p>
+<p>{lang=r,line-numbers=off} <sub>~</sub> shinyServer( function(input, output) { output<span class="math inline">\(oid1 = renderPrint({input\)</span>id1}) output<span class="math inline">\(oid2 = renderPrint({input\)</span>id2}) output<span class="math inline">\(odate = renderPrint({input\)</span>date}) } ) <sub>~</sub></p>
 <p>So, our function takes in <code>input$id1</code> and prints out <code>oid1</code>. Note that <code>id1</code> was the name given to our numeric input in our <code>ui.R</code> function. This is storred in <code>input$id1</code>. The label <code>id2</code> was given to our checkbox data in <code>ui.R</code> and it’s value is storred in <code>input$id2</code>. Similarly, <code>date</code> was the label given to the input date and it is stored in <code>input$date</code>.</p>
 <p>It is important in <code>server.R</code> to break from how we think about R programs being executed linearly. Instead, think of the functions being executed reactively to changing input from the <code>ui.R</code> function. The <code>renderPrint</code> function take the reactive input and assigns it to the output variable. Note the peculiar syntax for <code>renderPrint</code> in the <code>({R Statements })</code>.</p>
 <p>In this case, our <code>server.R</code> function is merely taking our inputed data and returning it right back. We named our output variables <code>oid1</code>, <code>oid2</code> and <code>odate</code>, the same names used in <code>ui.R</code>. The <code>renderPrint</code> statement says that it is being sent back to <code>ui.R</code> for formatted display.</p>
 <p>Here’s an example of the running of the code:</p>
 <div class="figure">
-<img src="images/inputsOutputs.png" alt="Example of input/output in Shiny." /><p class="caption">Example of input/output in Shiny.</p>
+<img src="images/inputsOutputs.png" alt="Example of input/output in Shiny." />
+<p class="caption">Example of input/output in Shiny.</p>
 </div>
 </div>
 <div id="putting-it-all-together" class="section level2">
@@ -620,10 +647,11 @@ mainPanel(
 <p>) ) <sub>~</sub> So, we have a sidebar panel that takes in the glucose value. The <code>submitButton</code> puts a button that waits until the button is pressed to send values to <code>sever.R</code>. We’ll discuss more on submit buttons in the next chapter. The main panel shows the output. Notice that <code>verbatimTextOutput</code> is the function that is used to display the output of our <code>server.R</code> functions.</p>
 <p>Our <code>server.R</code> function is</p>
 <p>{lang=r,line-numbers=off} <sub>~</sub> diabetesRisk &lt;- function(glucose) glucose / 200</p>
-<p>shinyServer( function(input, output) { output<span class="math">\(inputValue &lt;- renderPrint({input\)</span>glucose}) output<span class="math">\(prediction &lt;- renderPrint({diabetesRisk(input\)</span>glucose)}) } ) <sub>~</sub> Notice that our prediction function is defined outside of the <code>shinyServer</code> function. The <code>shinyServer</code> function takes in the input and repeats both the input glucose level and the outputted diabetes risk.</p>
+<p>shinyServer( function(input, output) { output<span class="math inline">\(inputValue &lt;- renderPrint({input\)</span>glucose}) output<span class="math inline">\(prediction &lt;- renderPrint({diabetesRisk(input\)</span>glucose)}) } ) <sub>~</sub> Notice that our prediction function is defined outside of the <code>shinyServer</code> function. The <code>shinyServer</code> function takes in the input and repeats both the input glucose level and the outputted diabetes risk.</p>
 <p>The output of the function is show below</p>
 <div class="figure">
-<img src="images/predictionApp.png" alt="Output of our diabetes risk assessment score." /><p class="caption">Output of our diabetes risk assessment score.</p>
+<img src="images/predictionApp.png" alt="Output of our diabetes risk assessment score." />
+<p class="caption">Output of our diabetes risk assessment score.</p>
 </div>
 </div>
 <div id="another-example" class="section level2">
@@ -633,24 +661,26 @@ mainPanel(
 <p>{lang=r,line-numbers=off} <sub>~</sub> shinyUI(pageWithSidebar( headerPanel(“Example plot”), sidebarPanel( sliderInput(‘mu’, ‘Guess at the mean’,value = 70, min = 62, max = 74, step = 0.05,) ), mainPanel( plotOutput(‘newHist’) ) )) <sub>~</sub></p>
 <p>Notice that <code>plotOutput</code> is the function used for plotting our generated histogram. Let’s consider the <code>server.R</code> function.</p>
 <p>{lang=r,line-numbers=off} <sub>~</sub> library(UsingR) data(galton)</p>
-<p>shinyServer( function(input, output) { output<span class="math">\(newHist &lt;- renderPlot({  hist(galton\)</span>child, xlab=‘child height’, col=‘lightblue’,main=‘Histogram’) mu &lt;- input<span class="math">\(mu  lines(c(mu, mu), c(0, 200),col=&quot;red&quot;,lwd=5)  mse &lt;- mean((galton\)</span>child - mu)^2) text(63, 150, paste(“mu =”, mu)) text(63, 140, paste(“MSE =”, round(mse, 2))) }) } ) <sub>~</sub></p>
+<p>shinyServer( function(input, output) { output<span class="math inline">\(newHist &lt;- renderPlot({  hist(galton\)</span>child, xlab=‘child height’, col=‘lightblue’,main=‘Histogram’) mu &lt;- input<span class="math inline">\(mu  lines(c(mu, mu), c(0, 200),col=&quot;red&quot;,lwd=5)  mse &lt;- mean((galton\)</span>child - mu)^2) text(63, 150, paste(“mu =”, mu)) text(63, 140, paste(“MSE =”, round(mse, 2))) }) } ) <sub>~</sub></p>
 <p>This shows how we created a somewhat elaborate set of code in the <code>renderPlot</code> statement that generates the plot. Specifically note the line <code>mu &lt;- input$mu</code>. This is our slider value that we use to generate our horizontal line. The final output is shown below:</p>
 <div class="figure">
-<img src="images/examplePlot.png" alt="Output of our interactive plotting example." /><p class="caption">Output of our interactive plotting example.</p>
+<img src="images/examplePlot.png" alt="Output of our interactive plotting example." />
+<p class="caption">Output of our interactive plotting example.</p>
 </div>
 </div>
 <div id="sharing-your-app" class="section level2">
 <h2><span class="header-section-number">2.15</span> Sharing your app</h2>
-<p>Now that we have a working app we’d like to share it with the world. You could simply post the code, and whatever data files are needed, then users could use <code>runApp</code> to see the application. However, it’s much nicer to have it display as a stand alone web application. This requires running a shiny server to host the app. Instead of creating and deploying our own shiny server, we’ll rely on RStudio’s service <code>shinyapps.io</code>. You can go to <a href="https://www.shinyapps.io/"><a href="https://www.shinyapps.io/">https://www.shinyapps.io/</a></a> where you will be shown how to create an account. After creating the account, you’ll be able to host your shiny apps there. Note, this is a freemium service, so that if you want to host a lot of apps, and have fancy bells and whistles, you’ll have to spring for the paid service (or host your own shiny server).</p>
+<p>Now that we have a working app we’d like to share it with the world. You could simply post the code, and whatever data files are needed, then users could use <code>runApp</code> to see the application. However, it’s much nicer to have it display as a stand alone web application. This requires running a shiny server to host the app. Instead of creating and deploying our own shiny server, we’ll rely on RStudio’s service <code>shinyapps.io</code>. You can go to <a href="https://www.shinyapps.io/" class="uri">https://www.shinyapps.io/</a> where you will be shown how to create an account. After creating the account, you’ll be able to host your shiny apps there. Note, this is a freemium service, so that if you want to host a lot of apps, and have fancy bells and whistles, you’ll have to spring for the paid service (or host your own shiny server).</p>
 <p>After getting a login, you’ll have to do some basic installs. First, <code>devtools</code>. (This is an essential package for a variety of reasons.) So, do <code>install.packages(&quot;devtools&quot;)</code> at the R command prompt. This will allow you to install the <code>shinyapps</code> package directly from github with the command <code>devtools::install_github('rstudio/shinyapps')</code>.</p>
 <p>Next you have to run some code that you can copy from the <code>shinyapps.io</code> site. It looks like</p>
-<p>{lang=r,line-numbers=off} <sub>~</sub> shinyapps::setAccountInfo(name=‘<ACCOUNT NAME>’, token=‘<TOKEN>’, secret=‘<SECRET>’) <sub>~</sub></p>
+<p>{lang=r,line-numbers=off} <sub><sub><sub> shinyapps::setAccountInfo(name=‘<ACCOUNT NAME>’, token=‘<TOKEN>’, secret=‘<SECRET>’) </sub></sub></sub></p>
 <p>This tells RStudio how to submit your code to <code>shinyapps.io</code> and gives it the permissions to do so. Now, change to the directory where your <code>server.R</code> and <code>ui.R</code> files are at and you can submit your code with:</p>
 <p>{lang=r,line-numbers=off} <sub>~</sub> deployApp(appName = “myFirstApp”) <sub>~</sub></p>
 <p>Make sure that <code>shinyapps</code> is loaded (with <code>library(shinyapps)</code>). If you need a path to your files, put that in the argument to <code>deployApp</code>. The <code>appName</code> argument appears to be necessary, and you want it anyway so you know which app it is on <code>shinyapps.io</code>. If all has gone well, your app will launch and it will open up a browser window linking to it. In my case, the link was. <code>https://bcaffo.shinyapps.io/myFirstApp</code>.</p>
 <p>You can manage your app in the browswer at <code>shinyapps.io</code>. Now when you go to <code>shinyapps.io</code> and click on Applications/All, or Applicatons/Running then you should see your app.</p>
 <div class="figure">
-<img src="images/shinyapps_io2.png" alt="Example app listing at shinyapps.io" /><p class="caption">Example app listing at shinyapps.io</p>
+<img src="images/shinyapps_io2.png" alt="Example app listing at shinyapps.io" />
+<p class="caption">Example app listing at shinyapps.io</p>
 </div>
 <p>From here you can start, stop and delete your app. You can also do that in your R console, with the <code>shinapps</code> tools. I would recommend using the web browswer as it’s a little easier, but if you get to the point where you’re writing a lot of apps, you probably want to learn the console commands.</p>
 </div>
@@ -658,7 +688,6 @@ mainPanel(
 <h2><span class="header-section-number">2.16</span> talk about shiny server later</h2>
 <p>It is important to dinstiguish between a Shiny applications (app) and a Shiny server. A Shiny server is required to host a shiny app for the world. Otherwise, only those who have have shiny installed and have access to your code could run your web application, which in some cases defeats the purpose of making a web application in the first place. In this book, we won’t cover creating a shiny server, as that requires understanding a little linux server administration. Instead, we’ll run our apps locally and use RStudio’s service for hosting shiny apps (their servers) on a platform called <a href="http://www.shinyapps.io/">shinyapps.io</a>.</p>
 <p>RStudio does the server work for your so that all you need to worry about is building your app. Shinyapps.io is free up to a point in that you can only run 5 apps for a certain amount of time per month. This will be fine for our purposes, but if you’re really going to get into making Shiny apps, you’ll have to spring for a paid plan or run your own server.</p>
-
 
 </div>
 </div>
@@ -681,6 +710,7 @@ mainPanel(
 require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
+"github": false,
 "facebook": true,
 "twitter": true,
 "google": false,
