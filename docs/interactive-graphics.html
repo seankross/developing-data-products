@@ -26,7 +26,7 @@
 <meta name="author" content="Brian Caffo and Sean Kross">
 
 
-<meta name="date" content="2017-03-28">
+<meta name="date" content="2017-03-29">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -49,6 +49,14 @@
 
 
 
+<script src="libs/htmlwidgets-0.8/htmlwidgets.js"></script>
+<link href="libs/leaflet-0.7.3/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-0.7.3/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-1.0.1/leaflet.js"></script>
+<link href="libs/leaflet-markercluster-0.4.0/MarkerCluster.css" rel="stylesheet" />
+<link href="libs/leaflet-markercluster-0.4.0/MarkerCluster.Default.css" rel="stylesheet" />
+<script src="libs/leaflet-markercluster-0.4.0/leaflet.markercluster.js"></script>
 
 
 <style type="text/css">
@@ -138,7 +146,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="2.15" data-path="shiny.html"><a href="shiny.html#sharing-your-app"><i class="fa fa-check"></i><b>2.15</b> Sharing your app</a></li>
 <li class="chapter" data-level="2.16" data-path="shiny.html"><a href="shiny.html#talk-about-shiny-server-later"><i class="fa fa-check"></i><b>2.16</b> talk about shiny server later</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="leaflet.html"><a href="leaflet.html"><i class="fa fa-check"></i><b>3</b> Leaflet</a></li>
+<li class="chapter" data-level="3" data-path="leaflet.html"><a href="leaflet.html"><i class="fa fa-check"></i><b>3</b> Leaflet</a><ul>
+<li class="chapter" data-level="3.1" data-path="leaflet.html"><a href="leaflet.html#getting-started"><i class="fa fa-check"></i><b>3.1</b> Getting Started</a></li>
+<li class="chapter" data-level="3.2" data-path="leaflet.html"><a href="leaflet.html#adding-markers"><i class="fa fa-check"></i><b>3.2</b> Adding Markers</a></li>
+<li class="chapter" data-level="3.3" data-path="leaflet.html"><a href="leaflet.html#drawing"><i class="fa fa-check"></i><b>3.3</b> Drawing</a></li>
+<li class="chapter" data-level="3.4" data-path="leaflet.html"><a href="leaflet.html#conclusion-1"><i class="fa fa-check"></i><b>3.4</b> Conclusion</a></li>
+</ul></li>
 <li class="chapter" data-level="4" data-path="interactive-graphics.html"><a href="interactive-graphics.html"><i class="fa fa-check"></i><b>4</b> Interactive Graphics</a><ul>
 <li class="chapter" data-level="4.1" data-path="interactive-graphics.html"><a href="interactive-graphics.html#googlevis"><i class="fa fa-check"></i><b>4.1</b> googleVis</a></li>
 </ul></li>
@@ -174,17 +187,19 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Watch these videos befores beginning: <a href="https://www.youtube.com/watch?v=CAtMPcSV1Qk&amp;list=PLpl-gQkQivXjTm0HLZZaNXf1LnlFSSVX4&amp;index=22&amp;t=1s">part 1,</a> <a href="https://www.youtube.com/watch?v=rV9IDEE7zYY&amp;index=23&amp;list=PLpl-gQkQivXjTm0HLZZaNXf1LnlFSSVX4">part 2.</a></p>
 <p>The basic idea of a <code>googleVis</code> chart is that one uses R to set up their data in the format required by <code>googleVis</code>, the <code>googleVis</code> R function creates a relevant HTML page. The resulting HTML page has uses Google Charts javscript libraries and the result is an interactive HTML graphic.</p>
 <p>Of course, if you haven’t done it already make sure to install <code>googleVis</code> (for example by <code>install.packages(&quot;googleVis&quot;)</code>), which only needs to be done once and then load it <code>library(googleVis)</code>. The <code>googleVis</code> package is exceptionally well documented. In this chapter we basically go through a tour of the manual to give users a push on some simple starting points. After finishing the chapter, you should be able to build on these examples to use all of the aspects of <code>googleVis</code>.</p>
-<p>A simple example of creating a Google Chart in R is given below. First we create a simple dataset then plot it with a bar chart.</p>
+<p>A simple example of creating a Google Chart in R is given below. First we create a simple dataset then plot it with a bar chart. Let’s create a dataset with the Coursera Data Science Specialization instructors’ age and twitter follwers in thousands. (Note the ages are fake, since I don’t actually know Jeff or Roger’s ages.)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Create a simple data set
-df =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">label=</span><span class="kw">c</span>(<span class="st">&quot;US&quot;</span>, <span class="st">&quot;GB&quot;</span>, <span class="st">&quot;BR&quot;</span>), <span class="dt">val1=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>), <span class="dt">val2=</span><span class="kw">c</span>(<span class="dv">23</span>,<span class="dv">12</span>,<span class="dv">32</span>))
-bar =<span class="st"> </span><span class="kw">gvisBarChart</span>(df, <span class="dt">xvar=</span><span class="st">&quot;label&quot;</span>, <span class="dt">yvar=</span><span class="kw">c</span>(<span class="st">&quot;val1&quot;</span>,<span class="st">&quot;val2&quot;</span>))
+df =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Instructor=</span><span class="kw">c</span>(<span class="st">&quot;Brian&quot;</span>, <span class="st">&quot;Roger&quot;</span>, <span class="st">&quot;Jef&quot;</span>), 
+                <span class="dt">Age=</span><span class="kw">c</span>(<span class="dv">43</span>,<span class="dv">39</span>,<span class="dv">34</span>), 
+                <span class="dt">Twitter=</span><span class="kw">c</span>(<span class="fl">7.9</span>,<span class="fl">22.4</span>,<span class="fl">13.9</span>))
+bar =<span class="st"> </span><span class="kw">gvisBarChart</span>(df, <span class="dt">xvar=</span><span class="st">&quot;Instructor&quot;</span>, <span class="dt">yvar=</span><span class="kw">c</span>(<span class="st">&quot;Age&quot;</span>,<span class="st">&quot;Twitter&quot;</span>))
 bar</code></pre></div>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>
-BarChartID2fac679736bd
+BarChartID75ce1b491fa9
 </title>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <style type="text/css">
@@ -200,46 +215,46 @@ body {
 </style>
 </head>
 <body>
-<p><!-- BarChart generated in R 3.3.2 by googleVis 0.6.2 package --> <!-- Tue Mar 28 14:18:20 2017 --></p>
+<p><!-- BarChart generated in R 3.3.2 by googleVis 0.6.2 package --> <!-- Wed Mar 29 13:58:38 2017 --></p>
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataBarChartID2fac679736bd () {
+function gvisDataBarChartID75ce1b491fa9 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
  [
-"US",
-1,
-23
+"Brian",
+43,
+7.9
 ],
 [
-"GB",
-3,
-12
+"Roger",
+39,
+22.4
 ],
 [
-"BR",
-4,
-32
+"Jef",
+34,
+13.9
 ] 
 ];
-data.addColumn('string','label');
-data.addColumn('number','val1');
-data.addColumn('number','val2');
+data.addColumn('string','Instructor');
+data.addColumn('number','Age');
+data.addColumn('number','Twitter');
 data.addRows(datajson);
 return(data);
 }
  
 // jsDrawChart
-function drawChartBarChartID2fac679736bd() {
-var data = gvisDataBarChartID2fac679736bd();
+function drawChartBarChartID75ce1b491fa9() {
+var data = gvisDataBarChartID75ce1b491fa9();
 var options = {};
 options["allowHtml"] = true;
 
     var chart = new google.visualization.BarChart(
-    document.getElementById('BarChartID2fac679736bd')
+    document.getElementById('BarChartID75ce1b491fa9')
     );
     chart.draw(data,options);
     
@@ -263,9 +278,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartBarChartID2fac679736bd);
+callbacks.push(drawChartBarChartID75ce1b491fa9);
 })();
-function displayChartBarChartID2fac679736bd() {
+function displayChartBarChartID75ce1b491fa9() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -288,16 +303,17 @@ callbacks.shift()();
 // jsFooter
 </script>
 <!-- jsChart -->
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartBarChartID2fac679736bd"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartBarChartID75ce1b491fa9"></script>
 <!-- divChart -->
-<div id="BarChartID2fac679736bd" style="width: 500; height: automatic;">
+<div id="BarChartID75ce1b491fa9" style="width: 500; height: automatic;">
 
 </div>
 <div>
-<span>Data: data • Chart ID: <a href="Chart_BarChartID2fac679736bd.html">BarChartID2fac679736bd</a> • <a href="https://github.com/mages/googleVis">googleVis-0.6.2</a></span><br /> <!-- htmlFooter --> <span> R version 3.3.2 (2016-10-31) • <a href="https://developers.google.com/terms/">Google Terms of Use</a> • <a href="https://google-developers.appspot.com/chart/interactive/docs/gallery/barchart">Documentation and Data Policy</a> </span>
+<span>Data: data • Chart ID: <a href="Chart_BarChartID75ce1b491fa9.html">BarChartID75ce1b491fa9</a> • <a href="https://github.com/mages/googleVis">googleVis-0.6.2</a></span><br /> <!-- htmlFooter --> <span> R version 3.3.2 (2016-10-31) • <a href="https://developers.google.com/terms/">Google Terms of Use</a> • <a href="https://google-developers.appspot.com/chart/interactive/docs/gallery/barchart">Documentation and Data Policy</a> </span>
 </div>
 </body>
 </html>
+<p>Clearly Brian needs to step up his tweeting.</p>
 <p>If you are viewing this book as a web page, note the interactivity by hovering over the lines. If you are running the code locally, you might have noticed that calling <code>bar</code> did not create the plot, <code>print(bar)</code> would behave similarly. Instead, these commands print the relevant HTML for the plot. It is shown this way as this is what is required to embed the plot into a compiled R markdown document with knitr. To get the results to show, use the chunk option <code>results = 'asis'</code>.</p>
 <p>Perhaps the easiest way to vizalize the results is to use the S3 plotting method associated with <code>googleVis</code> objects.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(Line)</code></pre></div>
@@ -325,12 +341,12 @@ callbacks.shift()();
                   <span class="dt">colorvar=</span><span class="st">&quot;Profit&quot;</span>,<span class="dt">options=</span><span class="kw">list</span>(<span class="dt">width=</span><span class="dv">600</span>, <span class="dt">height=</span><span class="dv">400</span>))
 <span class="kw">print</span>(G,<span class="st">&quot;chart&quot;</span>)</code></pre></div>
 <!-- GeoChart generated in R 3.3.2 by googleVis 0.6.2 package -->
-<!-- Tue Mar 28 13:59:46 2017 -->
+<!-- Wed Mar 29 13:58:38 2017 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataGeoChartID8d43aa243fe () {
+function gvisDataGeoChartID75ce207bd811 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -382,14 +398,14 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartGeoChartID8d43aa243fe() {
-var data = gvisDataGeoChartID8d43aa243fe();
+function drawChartGeoChartID75ce207bd811() {
+var data = gvisDataGeoChartID75ce207bd811();
 var options = {};
 options["width"] = 600;
 options["height"] = 400;
 
     var chart = new google.visualization.GeoChart(
-    document.getElementById('GeoChartID8d43aa243fe')
+    document.getElementById('GeoChartID75ce207bd811')
     );
     chart.draw(data,options);
     
@@ -413,9 +429,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartGeoChartID8d43aa243fe);
+callbacks.push(drawChartGeoChartID75ce207bd811);
 })();
-function displayChartGeoChartID8d43aa243fe() {
+function displayChartGeoChartID75ce207bd811() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -438,9 +454,9 @@ callbacks.shift()();
 // jsFooter
 </script>
 <!-- jsChart -->
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID8d43aa243fe"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID75ce207bd811"></script>
 <!-- divChart -->
-<div id="GeoChartID8d43aa243fe" style="width: 600; height: 400;">
+<div id="GeoChartID75ce207bd811" style="width: 600; height: 400;">
 
 </div>
 <p>Options in a <code>googleVis</code> chart are given in a list format. These are well documented in the help manual for each function. The parameters have to be set to the named value in Google Charts documentation for the associated chart. For example, consider the <code>gvisGeoChart</code> function. It’s options can be found <a href="https://developers.google.com/chart/interactive/docs/gallery/geochart#Configuration_Options">here</a>.</p>
@@ -449,12 +465,12 @@ callbacks.shift()();
                   <span class="dt">colorvar=</span><span class="st">&quot;Profit&quot;</span>,<span class="dt">options=</span><span class="kw">list</span>(<span class="dt">width=</span><span class="dv">600</span>, <span class="dt">height=</span><span class="dv">400</span>,<span class="dt">region=</span><span class="st">&quot;150&quot;</span>))
 <span class="kw">print</span>(G2,<span class="st">&quot;chart&quot;</span>)</code></pre></div>
 <!-- GeoChart generated in R 3.3.2 by googleVis 0.6.2 package -->
-<!-- Tue Mar 28 14:18:20 2017 -->
+<!-- Wed Mar 29 13:58:38 2017 -->
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataGeoChartID2fac412c5d7d () {
+function gvisDataGeoChartID75ce56061b05 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -506,15 +522,15 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartGeoChartID2fac412c5d7d() {
-var data = gvisDataGeoChartID2fac412c5d7d();
+function drawChartGeoChartID75ce56061b05() {
+var data = gvisDataGeoChartID75ce56061b05();
 var options = {};
 options["width"] = 600;
 options["height"] = 400;
 options["region"] = "150";
 
     var chart = new google.visualization.GeoChart(
-    document.getElementById('GeoChartID2fac412c5d7d')
+    document.getElementById('GeoChartID75ce56061b05')
     );
     chart.draw(data,options);
     
@@ -538,9 +554,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartGeoChartID2fac412c5d7d);
+callbacks.push(drawChartGeoChartID75ce56061b05);
 })();
-function displayChartGeoChartID2fac412c5d7d() {
+function displayChartGeoChartID75ce56061b05() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -563,11 +579,12 @@ callbacks.shift()();
 // jsFooter
 </script>
 <!-- jsChart -->
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID2fac412c5d7d"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID75ce56061b05"></script>
 <!-- divChart -->
-<div id="GeoChartID2fac412c5d7d" style="width: 600; height: 400;">
+<div id="GeoChartID75ce56061b05" style="width: 600; height: 400;">
 
 </div>
+<p>Let’s consider setting more options</p>
 
 </div>
 </div>

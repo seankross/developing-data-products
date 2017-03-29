@@ -108,10 +108,6 @@ on it's own you can see that a standard set of HTML tags are returned:
 
 
 ```
-Warning: package 'shiny' was built under R version 3.3.3
-```
-
-```
 <div class="container-fluid">
   <h2>Data science FTW!</h2>
   <div class="row">
@@ -452,6 +448,8 @@ the provinces and territories of Canada. Dynamic manipulation the UI can be a
 powerful tool for controlling the use and flow of your app.
 
 ## Reactivity
+
+
 
 **App 6: ui.R**
 

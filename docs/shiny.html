@@ -26,7 +26,7 @@
 <meta name="author" content="Brian Caffo and Sean Kross">
 
 
-<meta name="date" content="2017-03-28">
+<meta name="date" content="2017-03-29">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -49,6 +49,14 @@
 
 
 
+<script src="libs/htmlwidgets-0.8/htmlwidgets.js"></script>
+<link href="libs/leaflet-0.7.3/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-0.7.3/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-1.0.1/leaflet.js"></script>
+<link href="libs/leaflet-markercluster-0.4.0/MarkerCluster.css" rel="stylesheet" />
+<link href="libs/leaflet-markercluster-0.4.0/MarkerCluster.Default.css" rel="stylesheet" />
+<script src="libs/leaflet-markercluster-0.4.0/leaflet.markercluster.js"></script>
 
 
 <style type="text/css">
@@ -138,7 +146,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="2.15" data-path="shiny.html"><a href="shiny.html#sharing-your-app"><i class="fa fa-check"></i><b>2.15</b> Sharing your app</a></li>
 <li class="chapter" data-level="2.16" data-path="shiny.html"><a href="shiny.html#talk-about-shiny-server-later"><i class="fa fa-check"></i><b>2.16</b> talk about shiny server later</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="leaflet.html"><a href="leaflet.html"><i class="fa fa-check"></i><b>3</b> Leaflet</a></li>
+<li class="chapter" data-level="3" data-path="leaflet.html"><a href="leaflet.html"><i class="fa fa-check"></i><b>3</b> Leaflet</a><ul>
+<li class="chapter" data-level="3.1" data-path="leaflet.html"><a href="leaflet.html#getting-started"><i class="fa fa-check"></i><b>3.1</b> Getting Started</a></li>
+<li class="chapter" data-level="3.2" data-path="leaflet.html"><a href="leaflet.html#adding-markers"><i class="fa fa-check"></i><b>3.2</b> Adding Markers</a></li>
+<li class="chapter" data-level="3.3" data-path="leaflet.html"><a href="leaflet.html#drawing"><i class="fa fa-check"></i><b>3.3</b> Drawing</a></li>
+<li class="chapter" data-level="3.4" data-path="leaflet.html"><a href="leaflet.html#conclusion-1"><i class="fa fa-check"></i><b>3.4</b> Conclusion</a></li>
+</ul></li>
 <li class="chapter" data-level="4" data-path="interactive-graphics.html"><a href="interactive-graphics.html"><i class="fa fa-check"></i><b>4</b> Interactive Graphics</a><ul>
 <li class="chapter" data-level="4.1" data-path="interactive-graphics.html"><a href="interactive-graphics.html#googlevis"><i class="fa fa-check"></i><b>4.1</b> googleVis</a></li>
 </ul></li>
@@ -211,7 +224,6 @@ function(input, output){
 </div>
 <p>Let’s walk through the code in <code>ui.R</code>. The <code>fluidPage()</code> function specifies a type of user interface for Shiny to display. Fluid pages try to intelligently rearrange themselves depending on the size of the screen that’s displaying the app which makes this layout look better on mobile devices. Instead of a <code>fluidPage()</code> you could use a <code>fixedPage()</code> which will not resize your app. The <code>titlePanel()</code> function defines a title on the top of the page and the <code>sidebarLayout()</code> function defines the layout for everything below the title panel. The <code>sidebarLayout()</code> splits the page into a sidebar and a main part of the page, which are then specified with the <code>sidebarPanel()</code> function and the <code>mainPanel()</code> function respectively. Inside the <code>sidebarPanel()</code> and the <code>mainPanel()</code> I put an <code>h3()</code> heading, which just displays some text and is the same as specifying an <code>&lt;h3&gt;</code> tag in HTML.</p>
 <p>The <code>ui.R</code> simply defines the layout of the page. If you run the code in <code>ui.R</code> on it’s own you can see that a standard set of HTML tags are returned:</p>
-<pre><code>Warning: package &#39;shiny&#39; was built under R version 3.3.3</code></pre>
 <pre><code>&lt;div class=&quot;container-fluid&quot;&gt;
   &lt;h2&gt;Data science FTW!&lt;/h2&gt;
   &lt;div class=&quot;row&quot;&gt;

@@ -1,3 +1,188 @@
 # Leaflet
 
-[Watch this video before beginning.]()
+## Getting Started
+
+Leaflet is a [Javascript library](http://leafletjs.com/) that allows users to
+create interactive maps that even look good on mobile devices. The wonderful
+folks at RStudio created their own Leaflet [R package](https://github.com/rstudio/leaflet)
+which allows R users to create their own Leaflet maps without needing to write
+any Javascript. Let's get started making some maps!
+
+First you should of course install Leaflet:
+
+```{r, eval=FALSE}
+install.packages("leaflet")
+```
+
+Once you have leaflet installed you can start making maps! You can store your
+map in a variable like any other value, in this exmaple let's store our map in
+a variable called `my_map`. You need to use the `addTiles()` function to add
+a base layer to your map, and you can use the **pipe operator** (`%>%`) to
+sequentially add features to your map. Here's how you can make a very simple,
+basic map:
+
+```{r}
+library(leaflet)
+
+my_map <- leaflet() %>%
+  addTiles()
+my_map
+```
+
+Whoa, it's the whole world! In the HTML version of this book you should be able
+to move the map around and zoom in and out as you please. You've made your first
+interactive map! Leaflet uses free and open source data from the
+[OpenStreetMap](https://www.openstreetmap.org/) project.
+
+As lovely as the whole world is, you might want to specifiy a particular 
+location and zoom level if you're trying to show a particular location on your
+map. You can do this with the `setView()` function by specifying the longitude,
+latitude, and the zoom level:
+
+```{r}
+my_map <- my_map %>%
+  setView(lat = 39.2898036, lng = -76.6051842, zoom = 13)
+my_map
+```
+
+Ah look it's beautiful Baltimore, the
+[Greatest City in America](https://flic.kr/p/aQsDaT)! 
+
+## Adding Markers
+
+This is certainly a more
+interesting map than we had before, but it's still lacking features. Let's add
+a marker to this map using the `addMarkers()` function:
+
+```{r}
+my_map <- my_map %>%
+  addMarkers(lat=39.2980803, lng=-76.5898801, 
+             popup="Jeff Leek's Office")
+my_map
+```
+
+As you can see you can add a marker just by specifying longitude and latitude.
+Optionally you can add some pop up text which appears when you click on the
+marker. You don't have to add one marker at a time. To create multiple markers
+at once, use a data frame with columns named `lat` and `lng` for latitude and
+longitude:
+
+```{r}
+suppressWarnings(set.seed(2016-04-25))
+df <- data.frame(lat = runif(20, min = 39.2, max = 39.3),
+                 lng = runif(20, min = -76.6, max = -76.5))
+df %>% 
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers()
+```
+
+As you can see you can use the pipe operator to pipe a data frame directly into
+`leaflet()`.
+
+The default blue "teardrop" icon that Leaflet provides is nice, but you can also
+create your own icon with the `makeIcon()` function. You'll need to provide a
+few arguments to this function including a link to the URL for your icon, plus
+width and height variables. Once you've made an icon object you can use that
+icon by specifying the `icon` argument in `addmarkers()`:
+
+```{r}
+hopkinsIcon <- makeIcon(
+  iconUrl = "http://brand.jhu.edu/content/uploads/2014/06/university.shield.small_.blue_.png",
+  iconWidth = 31*215/230, iconHeight = 31,
+  iconAnchorX = 31*215/230/2, iconAnchorY = 16
+)
+
+hopkinsLatLong <- data.frame(
+  lat = c(39.2973166, 39.3288851, 39.2906617, 39.2970681, 39.2824806),
+  lng = c(-76.5929798, -76.6206598, -76.5469683, -76.6150537, -76.6016766))
+
+hopkinsLatLong %>% 
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(icon = hopkinsIcon)
+```
+
+Now we've nicely mapped out all of the Johns Hopkins campus locations around the
+city of Baltimore.
+You can customize text pop ups by including any valid HTML code in a vector.
+Then you can provide that vector as the `popup` argument in `addMarkers()` like
+so:
+
+```{r}
+hopkinsSites <- c(
+  "<a href='http://www.jhsph.edu/'>East Baltimore Campus</a>",
+  "<a href='https://apply.jhu.edu/visit/homewood/'>Homewood Campus</a>",
+  "<a href='http://www.hopkinsmedicine.org/johns_hopkins_bayview/'>Bayview Medical Center</a>",
+  "<a href='http://www.peabody.jhu.edu/'>Peabody Institute</a>",
+  "<a href='http://carey.jhu.edu/'>Carey Business School</a>"
+)
+
+hopkinsLatLong %>% 
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(icon = hopkinsIcon, popup = hopkinsSites)
+```
+
+Each Johns Hopkins campus location now has a pop up with a link to the website
+for its respective campus!
+
+
+
+```{r}
+df <- data.frame(lat = runif(500, min = 39.25, max = 39.35),
+                 lng = runif(500, min = -76.65, max = -76.55))
+df %>% 
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(clusterOptions = markerClusterOptions())
+```
+
+```{r}
+df <- data.frame(lat = runif(20, min = 39.25, max = 39.35),
+                 lng = runif(20, min = -76.65, max = -76.55))
+df %>% 
+  leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers()
+```
+
+## Drawing
+
+```{r}
+md_cities <- data.frame(name = c("Baltimore", "Frederick", "Rockville", "Gaithersburg", 
+                                 "Bowie", "Hagerstown", "Annapolis", "College Park", "Salisbury", "Laurel"),
+                        pop = c(619493, 66169, 62334, 61045, 55232,
+                                39890, 38880, 30587, 30484, 25346),
+                        lat = c(39.2920592, 39.4143921, 39.0840, 39.1434, 39.0068, 39.6418, 38.9784, 38.9897, 38.3607, 39.0993),
+                        lng = c(-76.6077852, -77.4204875, -77.1528, -77.2014, -76.7791, -77.7200, -76.4922, -76.9378, -75.5994, -76.8483))
+md_cities %>%
+  leaflet() %>%
+  addTiles() %>%
+  addCircles(weight = 1, radius = sqrt(md_cities$pop) * 30)
+```
+
+```{r}
+leaflet() %>%
+  addTiles() %>%
+  addRectangles(lat1 = 37.3858, lng1 = -122.0595, 
+                lat2 = 37.3890, lng2 = -122.0625)
+```
+
+```{r, eval=FALSE}
+df <- data.frame(lat = runif(20, min = 39.25, max = 39.35),
+                 lng = runif(20, min = -76.65, max = -76.55),
+                 col = sample(c("red", "blue", "green"), 20, replace = TRUE),
+                 stringsAsFactors = FALSE)
+
+df %>%
+  leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(color = df$col) %>%
+  addLegend(labels = LETTERS[1:3], colors = c("blue", "red", "green"))
+```
+
+## Conclusion
+
+For more details about the leaflet package for R 
+visit http://rstudio.github.io/leaflet/.

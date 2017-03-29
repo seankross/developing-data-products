@@ -328,6 +328,8 @@ powerful tool for controlling the use and flow of your app.
 
 ## Reactivity
 
+
+
 **App 6: ui.R**
 
 ```{r, cache=FALSE, echo=FALSE}

@@ -47,7 +47,11 @@ on these examples to use all of the aspects of `googleVis`.
 
 A simple example of creating a Google Chart in R
 is given below. First we create a simple dataset
-then plot it with a bar chart.
+then plot it with a bar chart. Let's create a 
+dataset with the Coursera Data Science Specialization
+instructors' age and twitter follwers in thousands.
+(Note the ages are fake, since I
+don't actually know Jeff or Roger's ages.)
 
 
 
@@ -55,8 +59,10 @@ then plot it with a bar chart.
 
 ```r
 ## Create a simple data set
-df = data.frame(label=c("US", "GB", "BR"), val1=c(1,3,4), val2=c(23,12,32))
-bar = gvisBarChart(df, xvar="label", yvar=c("val1","val2"))
+df = data.frame(Instructor=c("Brian", "Roger", "Jef"), 
+                Age=c(43,39,34), 
+                Twitter=c(7.9,22.4,13.9))
+bar = gvisBarChart(df, xvar="Instructor", yvar=c("Age","Twitter"))
 bar
 ```
 
@@ -64,7 +70,7 @@ bar
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>BarChartID2fac679736bd</title>
+<title>BarChartID75ce1b491fa9</title>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <style type="text/css">
 body {
@@ -80,48 +86,48 @@ body {
 </head>
 <body>
  <!-- BarChart generated in R 3.3.2 by googleVis 0.6.2 package -->
-<!-- Tue Mar 28 14:18:20 2017 -->
+<!-- Wed Mar 29 13:58:38 2017 -->
 
 
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataBarChartID2fac679736bd () {
+function gvisDataBarChartID75ce1b491fa9 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
  [
-"US",
-1,
-23
+"Brian",
+43,
+7.9
 ],
 [
-"GB",
-3,
-12
+"Roger",
+39,
+22.4
 ],
 [
-"BR",
-4,
-32
+"Jef",
+34,
+13.9
 ] 
 ];
-data.addColumn('string','label');
-data.addColumn('number','val1');
-data.addColumn('number','val2');
+data.addColumn('string','Instructor');
+data.addColumn('number','Age');
+data.addColumn('number','Twitter');
 data.addRows(datajson);
 return(data);
 }
  
 // jsDrawChart
-function drawChartBarChartID2fac679736bd() {
-var data = gvisDataBarChartID2fac679736bd();
+function drawChartBarChartID75ce1b491fa9() {
+var data = gvisDataBarChartID75ce1b491fa9();
 var options = {};
 options["allowHtml"] = true;
 
     var chart = new google.visualization.BarChart(
-    document.getElementById('BarChartID2fac679736bd')
+    document.getElementById('BarChartID75ce1b491fa9')
     );
     chart.draw(data,options);
     
@@ -145,9 +151,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartBarChartID2fac679736bd);
+callbacks.push(drawChartBarChartID75ce1b491fa9);
 })();
-function displayChartBarChartID2fac679736bd() {
+function displayChartBarChartID75ce1b491fa9() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -171,14 +177,14 @@ callbacks.shift()();
 </script>
  
 <!-- jsChart -->  
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartBarChartID2fac679736bd"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartBarChartID75ce1b491fa9"></script>
  
 <!-- divChart -->
   
-<div id="BarChartID2fac679736bd" 
+<div id="BarChartID75ce1b491fa9" 
   style="width: 500; height: automatic;">
 </div>
- <div><span>Data: data &#8226; Chart ID: <a href="Chart_BarChartID2fac679736bd.html">BarChartID2fac679736bd</a> &#8226; <a href="https://github.com/mages/googleVis">googleVis-0.6.2</a></span><br /> 
+ <div><span>Data: data &#8226; Chart ID: <a href="Chart_BarChartID75ce1b491fa9.html">BarChartID75ce1b491fa9</a> &#8226; <a href="https://github.com/mages/googleVis">googleVis-0.6.2</a></span><br /> 
 <!-- htmlFooter -->
 <span> 
   R version 3.3.2 (2016-10-31) 
@@ -186,6 +192,8 @@ callbacks.shift()();
 </span></div>
 </body>
 </html>
+
+Clearly Brian needs to step up his tweeting.
 
 If you are viewing this book as a web page, note the
 interactivity by hovering over the lines. If you
@@ -259,14 +267,14 @@ print(G,"chart")
 ```
 
 <!-- GeoChart generated in R 3.3.2 by googleVis 0.6.2 package -->
-<!-- Tue Mar 28 13:59:46 2017 -->
+<!-- Wed Mar 29 13:58:38 2017 -->
 
 
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataGeoChartID8d43aa243fe () {
+function gvisDataGeoChartID75ce207bd811 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -318,14 +326,14 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartGeoChartID8d43aa243fe() {
-var data = gvisDataGeoChartID8d43aa243fe();
+function drawChartGeoChartID75ce207bd811() {
+var data = gvisDataGeoChartID75ce207bd811();
 var options = {};
 options["width"] = 600;
 options["height"] = 400;
 
     var chart = new google.visualization.GeoChart(
-    document.getElementById('GeoChartID8d43aa243fe')
+    document.getElementById('GeoChartID75ce207bd811')
     );
     chart.draw(data,options);
     
@@ -349,9 +357,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartGeoChartID8d43aa243fe);
+callbacks.push(drawChartGeoChartID75ce207bd811);
 })();
-function displayChartGeoChartID8d43aa243fe() {
+function displayChartGeoChartID75ce207bd811() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -375,11 +383,11 @@ callbacks.shift()();
 </script>
  
 <!-- jsChart -->  
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID8d43aa243fe"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID75ce207bd811"></script>
  
 <!-- divChart -->
   
-<div id="GeoChartID8d43aa243fe" 
+<div id="GeoChartID75ce207bd811" 
   style="width: 600; height: 400;">
 </div>
 
@@ -402,14 +410,14 @@ print(G2,"chart")
 ```
 
 <!-- GeoChart generated in R 3.3.2 by googleVis 0.6.2 package -->
-<!-- Tue Mar 28 14:18:20 2017 -->
+<!-- Wed Mar 29 13:58:38 2017 -->
 
 
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataGeoChartID2fac412c5d7d () {
+function gvisDataGeoChartID75ce56061b05 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -461,15 +469,15 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartGeoChartID2fac412c5d7d() {
-var data = gvisDataGeoChartID2fac412c5d7d();
+function drawChartGeoChartID75ce56061b05() {
+var data = gvisDataGeoChartID75ce56061b05();
 var options = {};
 options["width"] = 600;
 options["height"] = 400;
 options["region"] = "150";
 
     var chart = new google.visualization.GeoChart(
-    document.getElementById('GeoChartID2fac412c5d7d')
+    document.getElementById('GeoChartID75ce56061b05')
     );
     chart.draw(data,options);
     
@@ -493,9 +501,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartGeoChartID2fac412c5d7d);
+callbacks.push(drawChartGeoChartID75ce56061b05);
 })();
-function displayChartGeoChartID2fac412c5d7d() {
+function displayChartGeoChartID75ce56061b05() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -519,11 +527,15 @@ callbacks.shift()();
 </script>
  
 <!-- jsChart -->  
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID2fac412c5d7d"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID75ce56061b05"></script>
  
 <!-- divChart -->
   
-<div id="GeoChartID2fac412c5d7d" 
+<div id="GeoChartID75ce56061b05" 
   style="width: 600; height: 400;">
 </div>
+
+Let's consider setting more options
+
+
 

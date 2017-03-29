@@ -1,7 +1,7 @@
 --- 
 title: "Developing Data Products"
 author: "Brian Caffo and Sean Kross"
-date: "2017-03-28"
+date: "2017-03-29"
 site: bookdown::bookdown_site
 output:
  bookdown::html_chapters:
